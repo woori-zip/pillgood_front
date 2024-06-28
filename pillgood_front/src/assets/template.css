@@ -1,0 +1,59 @@
+/* 멜론색 #B4D9A9 */
+/* Tea Green #C6EDC2 */
+
+.main-container {
+  width: 1000px;
+  margin: 20px auto;
+}
+
+.title {
+  font-weight: bolder;
+  font-size: 30px;
+  margin-top: 20px;
+}
+
+.content-container {
+  margin: 10px auto; /* 외부 여백 */
+  padding: 30px;     /* 내부 여백 */
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  width: 500px;
+}
+
+/* 버튼 button */
+.btn{
+  color: black;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 100px;
+}
+
+.btn-green {
+  background: #C6EDC2;
+}
+
+.btn-gray {
+  background: #f2f2f2;
+}
+/* ---------- 분리 ----------- */
+
+.border {
+  border: 2px solid #C6EDC2;
+  border-radius: 10px;
+}
+
+.font-bolder {
+  font-weight: bolder;
+  text-decoration-line: underline;
+}
+
+.highlight {
+  font-size: 20px;
+  color: #94b58b;
+  font-weight: bolder;
+}

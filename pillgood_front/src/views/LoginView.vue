@@ -2,20 +2,20 @@
   <div class="login-wrapper">
     <div class="login-container">
       <h4 style="color: #94b58b; margin-bottom:30px; font-weight: bold; margin-right: auto; margin-left: auto">로그인</h4>
-      <form @submit.prevent="login">
+      <form @submit.prevent="handleLogin">
         <table class="login-table">
           <tr>
             <td><label for="email" class="white-label">이메일</label></td>
-            <td><input type="email" clas="input-box" v-model="user.email" required /></td>
+            <td><input type="email" clas="input-box" v-model="email" required /></td>
           </tr>
           <tr>
             <td><label for="password" class="white-label">비밀번호</label></td>
-            <td><input type="password" clas="input-box" v-model="user.password" required /></td>
+            <td><input type="password" clas="input-box" v-model="password" required /></td>
           </tr>
         </table>
         <div style="margin-bottom:30px; margin-top: 30px;">
-          <button type="submit" class="submit-button">로그인</button>
-          <button type="button" class="cancel-button" @click="cancelLogin">취소</button>
+          <button type="submit" class="btn btn-green">로그인</button>
+          <button type="button" class="btn btn-gray" @click="navigateToRegister">회원가입</button>
         </div>
       </form>
     </div>
@@ -23,8 +23,9 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 import '../assets/styles.css'
+import { mapActions } from 'vuex';
 
 export default {
   data() {
@@ -36,26 +37,24 @@ export default {
     }
   },
   methods: {
-    login() {
-      axios
-        .post('http://localhost:9095/login', this.user)
-        .then(response => {
-          console.log(response.data)
-          alert('로그인이 완료되었습니다.')
-          this.$router.push('/')
-        })
-        .catch(error => {
-          console.error(error);
-          alert('로그인에 실패했습니다.')
-        });
+    ...mapActions({
+      loginAction: 'login' // Vuex의 login 액션을 다른 이름으로 매핑
+    }),
+    async handleLogin() {
+      console.log('로그인 시도: ',this.email, this.password) //디버깅 로그 추가
+      await this.loginAction({ email: this.email, password: this.password });
+      if (this.$store.state.isLoggedIn) {
+        console.log('로그인 성공')
+        this.$router.push('/'); // 로그인 성공 시 홈으로 이동
+      } else {
+        console.log('로그인 실패')
+        alert('로그인 실패. 다시 시도하세요.');
+      }
     },
-    cancelLogin() {
-      this.user = {
-        email: '',
-        password: '',
-      };
-    },
-  },
+    navigateToRegister() {
+      this.$router.push('/register');
+    }
+  }
 };
 </script>
 

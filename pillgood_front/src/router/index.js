@@ -1,24 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import RegisterMember from '../views/RegisterMember.vue'
-import LoginView from '../views/LoginView.vue'
+import Home from '../views/HomeView.vue'
+import Register from '../views/RegisterMember.vue'
+import Login from '../views/LoginView.vue'
+import Guide from '../views/cssGuide.vue'
 
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/register',
-    name: 'register',
-    component: RegisterMember
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: LoginView
-  }
+  {path: '/', component: Home},
+  {path: '/register', component: Register},
+  {path: '/login', component: Login},
+  {path: '/guide', component: Guide}
 ]
 
 const router = createRouter({

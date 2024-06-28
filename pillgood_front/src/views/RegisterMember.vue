@@ -126,7 +126,7 @@ export default {
 
       if (Object.keys(this.errors).length === 0) {
         axios
-          .post('http://localhost:9095/members', this.member)
+          .post('http://localhost:9095/members/register', this.member)
           .then(response => {
             console.log(response.data);
             alert('회원 가입이 완료되었습니다.')

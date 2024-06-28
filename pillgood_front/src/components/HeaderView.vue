@@ -17,8 +17,12 @@
             </div>
             <!-- 아이콘 -->
             <div class="icon-container">
-              <router-link to="/register" class="icon-link">
-              <i class="fa-solid fa-user"></i></router-link>&nbsp;
+              <router-link to="/login" class="icon-link" v-if="!isLoggedIn">
+                <i class="fa-solid fa-user"></i>
+              </router-link>&nbsp;
+              <router-link to="/settings" class="icon-link" v-else>
+                <i class="fa-solid fa-gear"></i>
+              </router-link>
               <i class="fa-solid fa-location-dot"></i>&nbsp;
               <i class="fa-solid fa-heart"></i>&nbsp;
               <i class="fa-solid fa-cart-shopping"></i>
@@ -40,8 +44,21 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
-  name: 'HeaderView'
+  name: 'HeaderView',
+  computed: {
+    ...mapState (['isLoggedIn']) // Vuex 상태를 가져옴
+  },
+  watch: {
+    isLoggedIn (newVal) {
+      console.log('사용자 정보 변경됨:', newVal) // 상태 변경 확인
+    }
+  },
+  created() {
+    console.log('초기 isLoggedIn 상태:', this.isLoggedIn); // 초기 상태 확인
+  }
 };
 </script>
 
