@@ -1,0 +1,90 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Pretendard-Regular', Arial, sans-serif;
+}
+
+h1 {
+  color: #333;
+}
+
+form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+label {
+  display: block;
+  margin: 15px 0 5px;
+}
+
+input,
+select,
+button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #5cb85c;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4cae4c;
+}
+
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.login-container {
+  background-color: white;
+  border-color: #94b58b;
+  border-radius: 20px;
+  padding: 30px; /* 내부 여백을 설정합니다. */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  width: 500px;
+}
+
+.white-label {
+  color: #94b58b;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 17px;
+}
+
+.input-box {
+  width: 100%;
+  height: 20px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.login-label{
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.login-table {
+  margin: 0 auto;
+  vertical-align: middle;
+}
+
+.login-table td {
+  padding: 10px;
+}
