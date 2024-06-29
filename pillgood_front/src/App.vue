@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <HeaderView />
-    <router-view />
+    <div class="main-content">
+      <router-view />
+    </div>
     <FooterView />
   </div>
 </template>
@@ -71,3 +73,18 @@ export default {
   }
 }
 </script>
+
+<style>
+@import './assets/layout.css';
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+}
+</style>

@@ -13,21 +13,6 @@
   bottom: 20%;
 }
 
-.icon-container {
-  color: #B4D9A9;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  }
-  
-  .icon-link {
-  color: inherit; /* 상위 요소의 색상을 상속받습니다 */
-  text-decoration-line: none; /* 밑줄을 제거합니다 */
-  display: flex; /* 아이콘을 flex 컨테이너로 감싸서 아이콘 위치를 조정합니다 */
-  align-items: center; /* 아이콘을 중앙에 정렬합니다 */
-  }
-
 @font-face {
       font-family: 'Pretendard-Regular';
       src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
