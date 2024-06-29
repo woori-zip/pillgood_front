@@ -17,12 +17,9 @@
             </div>
             <!-- 아이콘 -->
             <div class="icon-container">
-              <router-link to="/login" class="icon-link" v-if="!isLoggedIn">
-                <i class="fa-solid fa-user"></i>
-              </router-link>&nbsp;
-              <router-link to="/settings" class="icon-link" v-else>
-                <i class="fa-solid fa-gear"></i>
-              </router-link>
+              <router-link v-if="!isLoggedIn" to="/login" class="icon-link"><i class="fa-solid fa-user"></i></router-link>
+              <router-link v-else to="/mypage" class="icon-link"><i class="fa-solid fa-user"></i></router-link>
+              &nbsp;
               <i class="fa-solid fa-location-dot"></i>&nbsp;
               <i class="fa-solid fa-heart"></i>&nbsp;
               <i class="fa-solid fa-cart-shopping"></i>
@@ -49,11 +46,14 @@ import { mapState } from 'vuex'
 export default {
   name: 'HeaderView',
   computed: {
-    ...mapState (['isLoggedIn']) // Vuex 상태를 가져옴
+    ...mapState({
+      isLoggedIn: state => state.isLoggedIn,
+      user: state => state.user
+    })
   },
   watch: {
-    isLoggedIn (newVal) {
-      console.log('사용자 정보 변경됨:', newVal) // 상태 변경 확인
+    isLoggedIn(newVal) {
+      console.log('로그인 상태 변경:', newVal) // 상태 변경 확인
     }
   },
   created() {

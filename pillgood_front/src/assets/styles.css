@@ -50,10 +50,12 @@ button:hover {
   align-items: center;
   margin-top: 100px;
   margin-bottom: 100px;
+  font-family: 'Noto Sans KR', sans-serif
 }
 
 .login-container {
   background-color: white;
+  border: 1px solid;
   border-color: #94b58b;
   border-radius: 20px;
   padding: 30px; /* 내부 여백을 설정합니다. */
@@ -87,4 +89,8 @@ button:hover {
 
 .login-table td {
   padding: 10px;
+}
+
+.btn-bttm {
+  margin-bottom: 100px;
 }

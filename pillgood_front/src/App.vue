@@ -19,17 +19,17 @@ export default {
     ...mapActions(['checkLoginStatus']),
   },
   created() {
-    this.checkLoginStatus();
+    this.$store.dispatch('checkLoginStatus');
     setInterval(() => {
       this.checkLoginStatus().then(() => {
         const user = this.$store.state.user;
         if (user) {
-          alert(`현재 로그인된 사용자: ${user.email}`);
+          //alert(`현재 로그인된 사용자: ${user.email}`);
         } else {
-          alert('로그인된 사용자가 없습니다.');
+          //alert('로그인된 사용자가 없습니다.');
         }
       });
-    }, 30000); // 30초마다 실행
+    }, 60000); // 60초마다 실행
   }
 }
 </script>

@@ -6,12 +6,31 @@
         <table class="login-table">
           <tr>
             <td><label for="email" class="white-label">이메일</label></td>
-            <td><input type="email" clas="input-box" v-model="email" required /></td>
+            <td><input type="email" clas="input-box" v-model="user.email" required /></td>
           </tr>
           <tr>
             <td><label for="password" class="white-label">비밀번호</label></td>
-            <td><input type="password" clas="input-box" v-model="password" required /></td>
+            <td><input type="password" clas="input-box" v-model="user.password" required /></td>
           </tr>
+          <tr>
+          <td colspan="2">
+            <div class="chckbx">
+              <div style="margin: 0 auto; display: flex">
+              <div>
+                <input style="margin: 0 auto; " type="checkbox">
+              </div>
+              <div>
+                <label for="chk_all" style="margin: 0 auto;">&nbsp;이메일 기억하기</label>
+              </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <router-link to="/forgot-password">아이디/비밀번호 찾기</router-link>
+          </td>
+        </tr>
         </table>
         <div style="margin-bottom:30px; margin-top: 30px;">
           <button type="submit" class="btn btn-green">로그인</button>
@@ -28,6 +47,7 @@ import '../assets/styles.css'
 import { mapActions } from 'vuex';
 
 export default {
+  name: 'LoginView',
   data() {
     return {
       user: {
@@ -41,8 +61,8 @@ export default {
       loginAction: 'login' // Vuex의 login 액션을 다른 이름으로 매핑
     }),
     async handleLogin() {
-      console.log('로그인 시도: ',this.email, this.password) //디버깅 로그 추가
-      await this.loginAction({ email: this.email, password: this.password });
+      console.log('로그인 시도: ',this.user.email, this.user.password) //디버깅 로그 추가
+      await this.loginAction({ email: this.user.email, password: this.user.password })
       if (this.$store.state.isLoggedIn) {
         console.log('로그인 성공')
         this.$router.push('/'); // 로그인 성공 시 홈으로 이동

@@ -1,8 +1,57 @@
 <template>
   <div>
-    <h4 style="color: #94B58B; margin-top:50px; margin-bottom:30px; font-weight: bold;">회원 가입</h4>
-    <hr style="color: #94B58B; width: 50%; margin-bottom: 50px; margin-top: 30px; margin-left: auto; margin-right: auto;">
-    <form @submit.prevent="createMember">
+    <h4 style="color: #94B58B; margin-top:30px; margin-bottom:30px; font-weight: bold;">회원 가입</h4>
+    <div id="register_agree" class="wrapper">
+      <h6>[약관 동의]</h6>
+      <form id="agreementfrm" @submit.prevent="validateAgreement">
+        <div class="chckbx">
+          <div style="margin: 0 auto; display: flex">
+            <div id="fregister_chkall">
+              <input style="margin: 0 auto;" type="checkbox" v-model="allChecked" @change="checkAllAgreements" id="chk_all">
+            </div>
+            <div>
+              <label for="chk_all" style="margin: 0 auto;">&nbsp;회원가입 약관에 모두 동의합니다</label>
+            </div>
+          </div>
+        </div>
+        <br>
+        <hr style="color: gray; width: 400px; margin: 0 auto;">
+        <section id="fregister_term">
+          <div class="chckbx">
+            <div style="margin: 0 auto; display: flex;">
+              <div id="fregister_agree2" style="margin-top: 15px;">
+                <input type="checkbox" v-model="agree11" id="agree11">
+              </div>
+              <div>
+                <label for="agree11">&nbsp;이용약관 동의 <span style="color: red">(필수)</span></label>
+              </div>
+            </div>
+          </div>
+          <TermsContent1/>
+          <br>
+        </section>
+        <section id="fregister_private">
+          <div class="chckbx">
+            <div style="margin: 0 auto; display: flex;">
+              <div id="fregister_agree2" style="margin-top: 15px;">
+                <input type="checkbox" v-model="agree22" id="agree22">
+              </div>
+              <div>
+                <label for="agree22">&nbsp;개인정보 수집 이용 동의 <span style="color: red">(필수)</span></label>
+              </div>
+            </div>
+          </div>
+          <TermsContent2/>
+        </section>
+        <br>
+        <div class="btn_confirm">
+          <button type="submit" class="submit-button">동의하기</button>
+          <button type="button" class="cancel-button" @click="toLogin">돌아가기</button>
+        </div>
+      </form>
+    </div>
+    <hr style="color: #94B58B; width: 70%; margin-bottom: 50px; margin-top: 0px; margin-left: auto; margin-right: auto;">
+    <form @submit.prevent="createMember" id="createMemberfrm" :style="{ display: formVisible ? 'block' : 'none' }">
       <table class="table table-borderless">
         <tr>
           <td><label for="email">이메일:</label></td>
@@ -63,8 +112,14 @@
 <script>
 import axios from 'axios'
 import '../assets/styles.css'
+import TermsContent1 from '@/components/TermsContent1.vue'
+import TermsContent2 from '@/components/TermsContent2.vue'
 
 export default {
+  components: {
+    TermsContent1,
+    TermsContent2
+  },
   data() {
     return {
       member: {
@@ -75,10 +130,46 @@ export default {
         gender: 'N',
         phoneNumber: '',
       },
+      allChecked: false,
+      agree11: false,
+      agree22: false,
+      formVisible: false, // Add formVisible data property
       errors: {} // Ensure errors object is defined in data
     }
   },
+  watch: {
+    // eslint-disable-next-line
+    agree11(val) {
+      this.updateAllChecked()
+    },
+    // eslint-disable-next-line
+    agree22(val) {
+      this.updateAllChecked()
+    }
+  },
   methods: {
+    checkAllAgreements() {
+      if(this.allChecked) {
+        this.agree11 = true
+        this.agree22 = true
+      } else {
+        this.agree11 = false
+        this.agree22 = false
+      }
+    },
+    updateAllChecked() {
+      this.allChecked = this.agree11 && this.agree22;
+    },
+    validateAgreement() {
+      if (this.agree11 && this.agree22) {
+        this.formVisible = true
+      } else {
+        alert("모든 필수 약관에 동의해야 합니다.")
+      }
+    },
+    toLogin() {
+      this.$router.push('/login')
+    },
     validateEmail() {
       if (!this.member.email.includes('@')) {
         this.errors.email = '유효한 이메일 주소를 입력하세요.'
@@ -122,22 +213,23 @@ export default {
       }
     },
     createMember() {
-      this.validateEmail()
-
+      this.validateEmail();
+      console.log('Errors:', this.errors);
       if (Object.keys(this.errors).length === 0) {
+        console.log('Sending request to server...');
         axios
           .post('http://localhost:9095/members/register', this.member)
           .then(response => {
-            console.log(response.data);
-            alert('회원 가입이 완료되었습니다.')
+            console.log('Server response:', response.data);
+            alert('회원 가입이 완료되었습니다.');
             this.$router.push('/');
           })
           .catch(error => {
-            console.error(error);
-            alert('회원 가입에 실패했습니다.')
+            console.error('Error during registration:', error);
+            alert('회원 가입에 실패했습니다.');
           });
       } else {
-        alert('폼을 올바르게 작성하세요.')
+        alert('폼을 올바르게 작성하세요.');
       }
     },
     cancelRegistration() {
@@ -155,9 +247,10 @@ export default {
 };
 </script>
 
-<style scoped>
+
+<style>
 .registration-table {
-  margin: 150px 0
+  margin: 100px 0;
 }
 
 .submit-button, .cancel-button {
@@ -180,5 +273,34 @@ export default {
 
 .text-danger {
   color: #ff0000;
+}
+
+.agreementbox {
+  width: 500px;
+  height: 400px;
+}
+
+.wrapper {
+  padding: 20px;
+  margin: 20px auto 50px;
+  width: 600px;
+  border: 1px solid;
+  border-color: #C6EDC2;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.checks2 {
+  display: inline-block;
+  align-items: center;
+}
+
+.checks2 input[type="checkbox"] {
+  margin-right: 5px; 
+}
+
+.chckbx {
+  display: flex;
 }
 </style>
