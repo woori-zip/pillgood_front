@@ -1,6 +1,6 @@
 <template>
-<div>
-    <p class="title">마이페이지</p>
+<div class="main-container">
+  <p class="title">마이페이지</p>
 </div>
 </template>
 

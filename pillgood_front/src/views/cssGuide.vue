@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import '../assets/template.css'
+// import '../assets/template.css'
 export default {
   name: 'CssPreview',
 };
