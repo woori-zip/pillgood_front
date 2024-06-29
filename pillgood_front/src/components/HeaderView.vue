@@ -17,8 +17,12 @@
             </div>
             <!-- 아이콘 -->
             <div class="icon-container">
-              <router-link v-if="!isLoggedIn" to="/login" class="icon-link"><i class="fa-solid fa-user"></i></router-link>
-              <router-link v-else to="/mypage" class="icon-link"><i class="fa-solid fa-user"></i></router-link>
+              <router-link v-if="isLoggedIn === true" to="/login" class="icon-link">
+                <i class="fa-solid fa-user"></i>
+              </router-link>
+              <router-link v-else to="/mypage" class="icon-link">
+                <i class="fa-solid fa-user"></i>
+              </router-link>
               &nbsp;
               <i class="fa-solid fa-location-dot"></i>&nbsp;
               <i class="fa-solid fa-heart"></i>&nbsp;
@@ -41,23 +45,25 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from 'vuex';
 
 export default {
   name: 'HeaderView',
   computed: {
     ...mapState({
-      isLoggedIn: state => state.isLoggedIn,
-      user: state => state.user
+      isLoggedIn: state => state.isLoggedIn
     })
   },
   watch: {
     isLoggedIn(newVal) {
-      console.log('로그인 상태 변경:', newVal) // 상태 변경 확인
+      console.log('로그인 상태 변경:', newVal);
     }
   },
   created() {
-    console.log('초기 isLoggedIn 상태:', this.isLoggedIn); // 초기 상태 확인
+    // 주기적으로 isLoggedIn 상태 확인
+    setInterval(() => {
+      console.log('10초마다 isLoggedIn 상태 확인:', this.$store.state.isLoggedIn);
+    }, 10000); // 10초마다 실행
   }
 };
 </script>

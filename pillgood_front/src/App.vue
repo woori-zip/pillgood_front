@@ -1,8 +1,11 @@
 <template>
-  <HeaderView/>
-  <router-view />
-  <FooterView/>
+  <div id="app">
+    <HeaderView />
+    <router-view />
+    <FooterView />
+  </div>
 </template>
+
 
 <script>
 import HeaderView from './components/HeaderView.vue'
@@ -18,75 +21,53 @@ export default {
   computed: {
     ...mapState({
       isLoggedIn: state => state.isLoggedIn,
-      user: state => state.user
+      memberId: state => state.memberId,
+      member: state => state.member
     })
   },
   methods: {
-    ...mapActions(['checkLoginStatus', 'fetchUserInfo']),
+    ...mapActions(['checkLoginStatus', 'fetchMemberInfo']),
   },
-  async created() {
-    try {
-      // 애플리케이션이 처음 로드될 때 세션 상태 확인
-      await this.$store.dispatch('checkLoginStatus');
-      if (this.isLoggedIn) {
-        console.log('세션 로그인 상태: true'); // 세션 상태가 true인 경우 콘솔에 출력
-        await this.$store.dispatch('fetchUserInfo');
-      } else {
-        console.log('세션 로그인 상태: false'); // 세션 상태가 false인 경우 콘솔에 출력
-      }
-
-      // 로그인 상태 변화 감지
-      this.$watch(
-        () => this.isLoggedIn,
-        (newVal) => {
-          console.log('로그인 상태 변경:', newVal); // 상태 변경 확인
-        },
-        { immediate: true }
-      );
-
-      // 주기적으로 세션 상태 확인
-      setInterval(async () => {
-        await this.checkLoginStatus();
-        if (this.isLoggedIn) {
-          await this.$store.dispatch('fetchUserInfo');
-          const user = this.$store.state.user;
-          if (user) {
-            alert(`현재 로그인된 사용자 ID: ${user}`);
-          } else {
-            alert('로그인된 사용자가 없습니다.');
-          }
-        } else {
-          alert('로그인된 사용자가 없습니다.');
-        }
-      }, 30000); // 30초마다 실행
-    } catch (error) {
-      console.error('세션 확인 에러: ', error);
+  created() {
+  // console.log('App created lifecycle hook');
+  this.$store.dispatch('checkLoginStatus').then(() => {
+    // console.log('checkLoginStatus 처리 완료');
+    // console.log("state의 memberId: " + this.$store.state.memberId); // 상태 업데이트 확인
+    if (this.$store.state.isLoggedIn && this.$store.state.memberId) {
+      // console.log('로그인됨, 사용자 정보 가져오는 중');
+      this.$store.dispatch('fetchMemberInfo', this.$store.state.memberId);
+    } else {
+      console.log('로그인되지 않았거나 memberId가 없음');
     }
+  }).catch((error) => {
+    console.error('checkLoginStatus 에러:', error);
+  });
+
+  // 주기적으로 세션 상태 확인
+  setInterval(() => {
+    this.$store.dispatch('checkLoginStatus').then(() => {
+      if (this.$store.state.isLoggedIn) {
+        // console.log('30초마다 세션 테스트 중');
+        this.$store.dispatch('fetchMemberInfo', this.$store.state.memberId); // memberId 전달
+        const member = this.$store.state.member;
+        if (member) {
+          // console.log(`현재 로그인된 사용자 ID: ${this.$store.state.memberId}`)
+        } else {
+          console.log(`로그인한 사용자가 없습니다.`)
+        }
+      } else {
+        alert('로그인된 사용자가 없음.')
+      }
+    });
+  }, 30000); // 30초마다 실행
+
+    this.$watch(
+      () => this.$store.state.isLoggedIn,
+      (newVal) => {
+        console.log('A 로그인 상태 변경:', newVal); // 상태 변경 확인
+      },
+      { immediate: true }
+    );
   }
 }
 </script>
-
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-
-</style>

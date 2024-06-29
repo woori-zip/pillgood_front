@@ -4,61 +4,75 @@ import axios from './axios'; // 설정된 axios 인스턴스 불러오기
 export default createStore({
   state: {
     isLoggedIn: false,
-    user: null 
+    memberId: null, // 사용자 ID를 저장할 상태
+    member: null // 사용자 정보를 저장할 상태
   },
   mutations: {
     setLoginState(state, payload) {
-      state.isLoggedIn = payload.isLoggedIn;
-      state.user = payload.user;
-      console.log('상태 업데이트 - isLoggedIn:', state.isLoggedIn, 'user:', state.user); // 디버깅 로그 추가
+      if (payload.memberId !== undefined) { // memberId가 undefined가 아닌 경우에만 업데이트
+        state.isLoggedIn = payload.isLoggedIn;
+        state.memberId = payload.memberId;
+        state.member = payload.member;
+        console.log('상태 업데이트 - isLoggedIn:', state.isLoggedIn, 'memberId:', state.memberId); 
+      }
     }
   },
   actions: {
-    async login({ commit, dispatch }, { email, password }) {
+    async login({ commit }, { email, password }) {
       try {
         const response = await axios.post('/members/login', { email, password });
         if (response.status === 200) {
-          commit('setLoginState', { isLoggedIn: true, user: null });
+          const memberId = response.data.memberId; // 서버 응답에서 memberId 추출
+          commit('setLoginState', { isLoggedIn: true, memberId: response.data.memberId, member: null });
           localStorage.setItem('loggedIn', true);
-          await dispatch('fetchUserInfo');
+          await this.dispatch('fetchMemberInfo', memberId); // memberId 전달
         } else {
-          console.error('axios 로그인 실패: ', response.data);
+          // console.error('axios 로그인 실패: ', response.data);
         }
       } catch (error) {
-        console.error('axios 로그인 에러: ', error);
+        // console.error('axios 로그인 에러: ', error);
       }
     },
-    async fetchUserInfo({ commit }) {
+    async fetchMemberInfo({ state, commit }, memberId) {
       try {
-        const response = await axios.get('/members/findById', { withCredentials: true });
+        // memberId가 전달되지 않으면 state에서 가져옴
+        memberId = memberId || state.memberId;
+        // console.log('Fetching member info for ID:', memberId); // 디버깅 로그
+        const response = await axios.get(`/members/findById`, { params: { memberId } });
+        // console.log('사용자 정보 응답:', response.data); // 디버깅 로그 추가
         if (response.status === 200) {
-          commit('setLoginState', { isLoggedIn: true, user: response.data });
+          // console.log('fetchMemberInfo If Test: ', response.status)
+          // console.log('fetchMemberId memberId: ' + memberId)
+          commit('setLoginState', { isLoggedIn: true, memberId: memberId, member: response.data });
         } else {
-          commit('setLoginState', { isLoggedIn: false, user: null });
+          commit('setLoginState', { isLoggedIn: false, memberId: null, member: null });
         }
       } catch (error) {
-        commit('setLoginState', { isLoggedIn: false, user: null });
-        console.log('사용자 정보 가져오기 에러: ', error);
+        commit('setLoginState', { isLoggedIn: false, memberId: null, member: null });
+        // console.log('사용자 정보 가져오기 에러: ', error);
       }
     },
-    async checkLoginStatus({ commit, dispatch }) {
+    async checkLoginStatus({ commit }) {
       try {
         const response = await axios.get('/members/check-session', { withCredentials: true });
-        console.log('세션 체크 응답:', response.data); // 디버깅 로그 추가
+        // console.log('세션 체크 응답:', response.data); // 디버깅 로그 추가
         if (response.status === 200) {
-          await dispatch('fetchUserInfo');
+          // console.log("checkLoginStatus response: " + response.status)
+          const memberId = response.data.user.memberUniqueId; // 세션 체크 응답에서 memberId 추출
+          // console.log("checkLoginStatus memberId: " + memberId)
+          await this.dispatch('fetchMemberInfo', memberId); // memberId 전달
         } else {
-          commit('setLoginState', { isLoggedIn: false, user: null });
+          commit('setLoginState', { isLoggedIn: false, memberId: null, member: null });
         }
       } catch (error) {
-        commit('setLoginState', { isLoggedIn: false, user: null });
-        console.log('세션 확인 에러: ', error);
+        commit('setLoginState', { isLoggedIn: false, memberId: null, member: null });
+        // console.log('세션 확인 에러: ', error);
       }
-    },
+    },    
     async logout({ commit }) {
       try {
-        await axios.post('/members/logout', {}, { withCredentials: true });
-        commit('setLoginState', { isLoggedIn: false, user: null });
+        await axios.post('http://localhost:9095/members/logout', {}, { withCredentials: true });
+        commit('setLoginState', { isLoggedIn: false, memberId: null, member: null });
         localStorage.removeItem('loggedIn');
       } catch (error) {
         console.error('로그아웃 에러: ', error);
