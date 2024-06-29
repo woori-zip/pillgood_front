@@ -121,3 +121,17 @@
         .bd-mode-toggle .dropdown-menu .active .bi {
           display: block !important;
         }
+        
+        #carousel-control:hover {
+          background-color: white;
+          opacity: 10%;
+        }
+
+        #carousel-control {
+          border-radius: 20px;
+          margin-top: 7px;   
+        }
+
+        #carousel-control-icon:hover {
+          opacity: 1.0;
+        }

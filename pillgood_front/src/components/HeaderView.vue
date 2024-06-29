@@ -17,7 +17,7 @@
             </div>
             <!-- 아이콘 -->
             <div class="icon-container">
-              <router-link to="/register" class="icon-link">
+              <router-link to="/login" class="icon-link">
               <i class="fa-solid fa-user"></i></router-link>&nbsp;
               <i class="fa-solid fa-location-dot"></i>&nbsp;
               <i class="fa-solid fa-heart"></i>&nbsp;
