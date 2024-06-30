@@ -1,25 +1,29 @@
 <template>
-  <div class="login-wrapper">
-  <div class="login-container">
-      <h4 style="color: #94B58B; margin-bottom: 30px; font-weight: bold;">비밀번호 변경</h4>
+  <div class="box-container">
+      <h4 class="text-melon">비밀번호 변경</h4>
       <form @submit.prevent="changePassword">
-      <table class="login-table">
-          <tr>
-          <td><label for="newPassword">새 비밀번호:</label></td>
+      <table>
+        <tr>
           <td>
-              <input type="password" v-model="newPassword" required />
+            <label for="newPassword" class="text-melon">새 비밀번호</label>
           </td>
-          </tr>
-          <tr>
-          <td><label for="confirmPassword">비밀번호 확인:</label></td>
           <td>
-              <input type="password" v-model="confirmPassword" required />
+            <input type="password" class="input-box" v-model="newPassword" required />
           </td>
-          </tr>
+        </tr>
+        <tr>
+          <td>
+            <label for="confirmPassword" class="text-melon">비밀번호 확인</label>
+          </td>
+          <td>
+            <input type="password" class="input-box" v-model="confirmPassword" required />
+          </td>
+        </tr>
       </table>
-      <button type="submit" class="submit-button">비밀번호 변경</button>
+      <div class="btn-container">
+        <button type="submit" class="btn btn-submit">비밀번호 변경</button>
+      </div>
       </form>
-  </div>
   </div>
 </template>
 
@@ -64,23 +68,3 @@ methods: {
 }
 }
 </script>
-
-<style scoped>
-.submit-button {
-background-color: #C6EDC2;
-border: none;
-color: black;
-padding: 10px;
-text-align: center;
-text-decoration: none;
-display: inline-block;
-font-size: 16px;
-margin: 4px 2px;
-cursor: pointer;
-width: 100%;
-}
-
-.text-danger {
-color: #ff0000;
-}
-</style>

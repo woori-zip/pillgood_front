@@ -9,88 +9,110 @@ body {
   font-family: 'Pretendard-Regular', Arial, sans-serif;
 }
 
+.main-container {
+  width: 1000px;
+  border: 1px solid #5cb85c;
+  margin: auto;
+  padding: 10px;
+  text-align: center; /*내부 요소 가운데 정렬*/
+}
+
+/* -------------------------------------------------------------button */
+
+.btn-container {
+  margin: 30px 0;
+  display: flex;
+  justify-content: center;
+  padding: 0 10px;
+  gap: 10px;
+}
+
+.btn {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn-green {
+  background-color: #C6EDC2;
+  border: none;
+}
+
+.btn-green:hover {
+  background-color: #4cae4c;
+  color: white;
+}
+
+.btn-gray {
+  border: 1px solid #ccc;
+}
+
+.btn-gray:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* ------------------------------------------------------------- */
+
+.box-container {
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  width: 500px;
+  margin: 20px auto 20px auto;
+  text-align: center;
+}
+
+.input-box {
+  border: 1px solid #B4D9A9;
+  margin: 5px 5px 5px 10px;
+  height: 30px;
+  border-radius: 5px;
+}
+
+/* -------------------------------------------------------------text */
+
 h1 {
   color: #333;
 }
 
-form {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-label {
-  display: block;
-  margin: 15px 0 5px;
-}
-
-
-select,
-button {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-button {
-  background-color: #5cb85c;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #4cae4c;
-}
-
-.login-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 100px;
-  margin-bottom: 100px;
-  font-family: 'Noto Sans KR', sans-serif
-}
-
-.login-container {
-  background-color: white;
-  border: 1px solid;
-  border-color: #94b58b;
-  border-radius: 20px;
-  padding: 30px; /* 내부 여백을 설정합니다. */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-  width: 500px;
-}
-
-.white-label {
+.text-melon {
   color: #94b58b;
   font-weight: bold;
   display: block;
-  margin-bottom: 17px;
 }
 
-.input-box {
+.text-gray {
+  color: #212529; /* 짙은 회색 */
+}
+
+.text-danger {
+  color: #ff0000;
+}
+
+/* -------------------------------------------------------------table */
+
+table {
+  margin: auto;
+}
+
+td {
+  vertical-align: middle; /* td 요소 내에서 세로 가운데 정렬 */
+  text-align: center; /* 수평 가운데 정렬 */
+}
+
+/* -------------------------------------------------------------table */
+
+.agreement-container {
+  background-color: #4cae4c;
+}
+
+.agreement-container textarea {
   width: 100%;
-  height: 20px;
-  padding: 8px;
-  box-sizing: border-box;
-}
-
-.login-label{
-  padding: 10px;
-  margin-right: 10px;
-}
-
-.login-table {
-  margin: 0 auto;
-  vertical-align: middle;
-}
-
-.login-table td {
-  padding: 10px;
-}
-
-.btn-bttm {
-  margin-bottom: 100px;
+  height: 300px;
 }

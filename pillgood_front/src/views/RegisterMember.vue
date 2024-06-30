@@ -1,25 +1,24 @@
 <template>
-  <div>
-    <h4 style="color: #94B58B; margin-top:30px; margin-bottom:30px; font-weight: bold;">회원 가입</h4>
-    <div id="register_agree" class="wrapper">
+    <div id="register_agree" class="box-container">
+      <h4 class="text-melon">회원 가입</h4>
       <h6>[약관 동의]</h6>
       <form id="agreementfrm" @submit.prevent="validateAgreement">
-        <div class="chckbx">
-          <div style="margin: 0 auto; display: flex">
+        <div class="chckbx" style="background: yellow;">
+          <div style="display: flex">
             <div id="fregister_chkall">
-              <input style="margin: 0 auto;" type="checkbox" v-model="allChecked" @change="checkAllAgreements" id="chk_all">
+              <input type="checkbox" v-model="allChecked" @change="checkAllAgreements" id="chk_all">
             </div>
             <div>
-              <label for="chk_all" style="margin: 0 auto;">&nbsp;회원가입 약관에 모두 동의합니다</label>
+              <label for="chk_all">&nbsp;회원가입 약관에 모두 동의합니다</label>
             </div>
           </div>
         </div>
         <br>
         <hr style="color: gray; width: 400px; margin: 0 auto;">
-        <section id="fregister_term">
-          <div class="chckbx">
-            <div style="margin: 0 auto; display: flex;">
-              <div id="fregister_agree2" style="margin-top: 15px;">
+        <section id="fregister_term" style="background: coral;">
+          <div class="chckbx" style="background: red;">
+            <div>
+              <div id="fregister_agree2">
                 <input type="checkbox" v-model="agree11" id="agree11">
               </div>
               <div>
@@ -28,7 +27,6 @@
             </div>
           </div>
           <TermsContent1/>
-          <br>
         </section>
         <section id="fregister_private">
           <div class="chckbx">
@@ -41,16 +39,18 @@
               </div>
             </div>
           </div>
-          <TermsContent2/>
-        </section>
-        <br>
-        <div class="btn_confirm">
-          <button type="submit" class="submit-button">동의하기</button>
-          <button type="button" class="cancel-button" @click="toLogin">돌아가기</button>
+          <div class="agreement-container">
+            <!-- 약관 -->
+          </div>
+        </section>        
+        <hr style="color: gray; width: 400px; margin: 0 auto;">
+        <div class="btn-container">
+          <button type="button" class="btn btn-gray" @click="toLogin">돌아가기</button>
+          <button type="submit" class="btn btn-green">다음으로</button>
         </div>
       </form>
     </div>
-    <hr style="color: #94B58B; width: 70%; margin-bottom: 50px; margin-top: 0px; margin-left: auto; margin-right: auto;">
+    <hr>
     <form @submit.prevent="createMember" id="createMemberfrm" :style="{ display: formVisible ? 'block' : 'none' }">
       <table class="table table-borderless">
         <tr>
@@ -101,24 +101,21 @@
         </tr>
       </table>
       <hr style="color: #94B58B; margin-bottom: 50px; margin-top: 30px; margin-left: auto; margin-right: auto;">
-      <div style="margin-bottom:50px;">
-        <button type="submit" class="submit-button">회원 가입</button>
-        <button type="button" class="cancel-button" @click="cancelRegistration">취소</button>
+      <div class="btn-container">
+        <button type="submit" class="btn btn-green">회원 가입</button>
+        <button type="button" class="btn btn-gray" @click="cancelRegistration">취소</button>
       </div>
     </form>
-  </div>
 </template>
 
 <script>
 import axios from 'axios'
 import '../assets/styles.css'
-import TermsContent1 from '@/components/TermsContent1.vue'
-import TermsContent2 from '@/components/TermsContent2.vue'
+import TermsContent1 from '@/components/TermsContent1.vue';
 
 export default {
   components: {
-    TermsContent1,
-    TermsContent2
+    TermsContent1
   },
   data() {
     return {
@@ -134,7 +131,7 @@ export default {
       agree11: false,
       agree22: false,
       formVisible: false, // Add formVisible data property
-      errors: {} // Ensure errors object is defined in data
+      errors: {}, // Ensure errors object is defined in data
     }
   },
   watch: {
@@ -147,7 +144,6 @@ export default {
       this.updateAllChecked()
     }
   },
-  methods: {
     checkAllAgreements() {
       if(this.allChecked) {
         this.agree11 = true
@@ -244,51 +240,14 @@ export default {
       this.errors = {}
     }
   }
-};
+
 </script>
 
 
 <style>
+
 .registration-table {
   margin: 100px 0;
-}
-
-.submit-button, .cancel-button {
-  background-color: #C6EDC2;
-  border: none;
-  color: black;
-  padding: 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  width: 100px;
-}
-
-.cancel-button {
-  background-color: #f2f2f2;
-}
-
-.text-danger {
-  color: #ff0000;
-}
-
-.agreementbox {
-  width: 500px;
-  height: 400px;
-}
-
-.wrapper {
-  padding: 20px;
-  margin: 20px auto 50px;
-  width: 600px;
-  border: 1px solid;
-  border-color: #C6EDC2;
-  border-radius: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-family: 'Noto Sans KR', sans-serif;
 }
 
 .checks2 {

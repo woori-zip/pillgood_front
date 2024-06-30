@@ -191,7 +191,7 @@ html, body {
   
   .nav-container {
     width: 100%;
-    padding: 0;
+    padding: 5px;
   }
 
   .nav-container ul li {
@@ -216,8 +216,7 @@ html, body {
   background-color: #94B58B; /* 배경색 설정 */
   color: white;
   width: 100%;
-  bottom: 0px !important;
-  bottom: 0px !important;
+  padding: 10px;
   height: 130px; /* footer 높이 설정 */
 }
 
@@ -267,6 +266,10 @@ html, body {
 
 /* 반응형 디자인을 위한 미디어 쿼리 */
 @media (max-width: 1200px) {
+  .footer {
+    height: 150px;
+  }
+  
   .flex-container {
     flex-direction: column;
     align-items: center;

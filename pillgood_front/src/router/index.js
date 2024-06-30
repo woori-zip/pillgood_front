@@ -5,16 +5,17 @@ import Login from '../views/LoginView.vue'
 import ForgotPassword from '../views/ForgotPasswordView.vue'
 import ChangePassword from '../views/ChangePasswordView.vue'
 import MyPage from '../views/MyPage.vue'
-import Guide from '../views/cssGuide.vue'
+
+import Template from '../views/Template.vue'
 
 const routes = [
   {path: '/', component: Home},
   {path: '/register', component: Register},
   {path: '/login', component: Login},
-  {path: '/forgot-password', component: ForgotPassword},
+  {path: '/forgotpassword', component: ForgotPassword},
   {path: '/changepassword', component: ChangePassword},
   {path: '/mypage', component: MyPage},
-  {path: '/guide', component: Guide}
+  {path: '/template', component: Template}
 ]
 
 const router = createRouter({

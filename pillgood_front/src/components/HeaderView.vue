@@ -18,7 +18,7 @@
             </div>
             <!-- 아이콘 -->
             <div class="icon-container">
-              <router-link v-if="isLoggedIn === true" to="/login" class="icon-link">
+              <router-link v-if="isLoggedIn == false" to="/login" class="icon-link">
                 <i class="fa-solid fa-user"></i>
               </router-link>
               <router-link v-else to="/mypage" class="icon-link">
