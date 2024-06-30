@@ -11,10 +11,33 @@ body {
 
 .main-container {
   width: 1000px;
-  border: 1px solid #5cb85c;
   margin: auto;
   padding: 10px;
-  text-align: center; /*내부 요소 가운데 정렬*/
+  text-align: center;
+  margin: 20px auto 20px auto;
+}
+
+.box-container {
+  background: white;
+  padding: 30px;
+  width: 500px;
+  margin: 20px auto 20px auto;
+  text-align: center;
+}
+
+.box-shadow {
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 1200px) {
+  .main-container {
+    width: 100%;
+  }
+  
+  .box-container {
+    width: 100%;
+  }
 }
 
 /* -------------------------------------------------------------button */
@@ -57,23 +80,34 @@ body {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-/* ------------------------------------------------------------- */
+/* -------------------------------------------------------------input */
 
-.box-container {
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-  width: 500px;
-  margin: 20px auto 20px auto;
-  text-align: center;
-}
-
-.input-box {
+input, select {
   border: 1px solid #B4D9A9;
-  margin: 5px 5px 5px 10px;
+  margin: 10px;
   height: 30px;
   border-radius: 5px;
+  padding: 3px;
+  text-align: right;
+  vertical-align: middle;
 }
+
+.check-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input[readonly],select[disabled] {
+  background: rgb(0,0,0,0.1);
+}
+
+/* input[type="email"],input[type="text"],input[type="number"],select {
+  text-align: center;
+} */
+
+input[type=number]::-webkit-outer-spin-button{-webkit-appearance: none;margin: 0;}
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance: none;margin: 0;}
 
 /* -------------------------------------------------------------text */
 
@@ -95,6 +129,10 @@ h1 {
   color: #ff0000;
 }
 
+.text-bold {
+  font-weight: bold;
+}
+
 /* -------------------------------------------------------------table */
 
 table {
@@ -102,17 +140,34 @@ table {
 }
 
 td {
-  vertical-align: middle; /* td 요소 내에서 세로 가운데 정렬 */
-  text-align: center; /* 수평 가운데 정렬 */
+  vertical-align: middle;
+}
+
+td input, select, span {
+  width: 100%;
+}
+
+td input {
+  text-align: right;
 }
 
 /* -------------------------------------------------------------table */
 
 .agreement-container {
-  background-color: #4cae4c;
-}
-
-.agreement-container textarea {
   width: 100%;
   height: 300px;
+}
+
+/* -------------------------------------------------------------modal */
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
 }

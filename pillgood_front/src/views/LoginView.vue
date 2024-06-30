@@ -1,31 +1,23 @@
 <template>
-  <div class="box-container">
+  <div class="box-container box-shadow">
     <h4 class="text-melon">로그인</h4>
     <form @submit.prevent="handleLogin">
       <table>
         <tr>
           <!-- lable의 for 속성은 input 요소의 id 와 일치해야 합니다! -->
           <td><label for="email" class="text-melon">이메일</label></td>
-          <td><input type="email" id="email" class="input-box" v-model="email" required /></td>
+          <td><input type="email" id="email" v-model="email" required /></td>
         </tr>
         <tr>
           <td><label for="password" class="text-melon">비밀번호</label></td>
-          <td><input type="password" id="password" class="input-box" v-model="password" required /></td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <div>
-              <input id="chk_all" type="checkbox">
-              <label for="chk_all" class="text-gray">&nbsp;이메일 기억하기</label>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <router-link to="/forgotpassword">아이디/비밀번호 찾기</router-link>
-          </td>
+          <td><input type="password" id="password" v-model="password" required /></td>
         </tr>
       </table>
+      <div class="check-container">
+        <input id="chk_all" type="checkbox">
+        <label for="chk_all" class="text-gray">이메일 기억하기</label>
+      </div>
+      <router-link to="/forgotpassword">아이디/비밀번호 찾기</router-link>
       <div class="btn-container">
         <button type="submit" class="btn btn-green">로그인</button>
         <button type="button" class="btn btn-gray" @click="navigateToRegister">회원가입</button>

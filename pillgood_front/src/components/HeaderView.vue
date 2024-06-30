@@ -18,10 +18,13 @@
             </div>
             <!-- 아이콘 -->
             <div class="icon-container">
-              <router-link v-if="isLoggedIn == false" to="/login" class="icon-link">
+              <router-link v-if="isLoggedIn" to="/mypage" class="icon-link">
                 <i class="fa-solid fa-user"></i>
               </router-link>
-              <router-link v-else to="/mypage" class="icon-link">
+              <button v-if="isLoggedIn" @click="logout" class="icon-link">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+              </button>
+              <router-link v-else to="/login" class="icon-link">
                 <i class="fa-solid fa-user"></i>
               </router-link>
               <i class="fa-solid fa-location-dot"></i>
@@ -46,7 +49,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import '../assets/layout.css'
+import '../assets/layout.css';
 
 export default {
   name: 'HeaderView',
@@ -54,6 +57,11 @@ export default {
     ...mapState({
       isLoggedIn: state => state.isLoggedIn
     })
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('logout');
+    }
   },
   watch: {
     isLoggedIn(newVal) {
@@ -63,6 +71,8 @@ export default {
   created() {
     // 주기적으로 isLoggedIn 상태 확인
     setInterval(() => {
+      // isLoggedIn 상태를 확인하는 디버깅 로그를 추가
+      // console.log('mapState 안 된다고!!!! :', this.isLoggedIn);
       console.log('10초마다 isLoggedIn 상태 확인:', this.$store.state.isLoggedIn);
     }, 10000); // 10초마다 실행
   }

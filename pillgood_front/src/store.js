@@ -23,14 +23,15 @@ export default createStore({
         const response = await axios.post('/members/login', { email, password });
         if (response.status === 200) {
           const memberId = response.data.memberId; // 서버 응답에서 memberId 추출
-          commit('setLoginState', { isLoggedIn: true, memberId: response.data.memberId, member: null });
-          localStorage.setItem('loggedIn', true);
+          console.log("서버 응답에서 memberId 추출: ", memberId)
+          commit('setLoginState', { isLoggedIn: true, memberId: memberId, member: null });
+          localStorage.setItem('loggedIn', true); //문자열로 저장
           await this.dispatch('fetchMemberInfo', memberId); // memberId 전달
         } else {
-          // console.error('axios 로그인 실패: ', response.data);
+          console.error('axios 로그인 실패: ', response.data);
         }
       } catch (error) {
-        // console.error('axios 로그인 에러: ', error);
+        console.error('axios 로그인 에러: ', error);
       }
     },
     async fetchMemberInfo({ state, commit }, memberId) {
