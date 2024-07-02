@@ -34,21 +34,28 @@ export default {
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      loginError: '' // 로그인 에러 메시지 상태 추가
     }
   },
   methods: {
-    ...mapActions(['login']),
+    ...mapActions('member', ['login']), // 'member' 모듈에서 액션 가져오기
     async handleLogin() {
-      // console.log('로그인 시도: ', this.email, this.password); // 디버깅 로그 추가
-      await this.login({ email: this.email, password: this.password });
-      if (this.$store.state.isLoggedIn) {
-        // console.log('로그인 성공');
-        alert('로그인 성공')
-        this.$router.push('/'); // 로그인 성공 시 홈으로 이동
-      } else {
-        // console.log('로그인 실패');
-        alert('로그인 실패. 다시 시도하세요.');
+      console.log('로그인 시도: ', this.email, this.password); // 디버깅 로그 추가
+      try {
+        await this.login({ email: this.email, password: this.password });
+        if (this.$store.state.member.isLoggedIn) { // 모듈 네임스페이스를 사용하여 상태 확인
+          console.log('로그인 성공');
+          alert('로그인 성공');
+          this.$router.push('/'); // 로그인 성공 시 홈으로 이동
+        } else {
+          console.log('로그인 실패');
+          this.loginError = '로그인에 실패했습니다. 다시 시도해주세요.';
+          alert('로그인 실패. 다시 시도하세요.');
+        }
+      } catch (error) {
+        console.log('로그인 중 오류 발생:', error);
+        this.loginError = '로그인 중 오류가 발생했습니다.';
       }
     },
     navigateToRegister() {
@@ -56,7 +63,7 @@ export default {
     }
   },
   watch: {
-    isLoggedIn(newVal) {
+    'member.isLoggedIn'(newVal) { // 'member' 모듈의 isLoggedIn 상태 변경 감지
       console.log('L 로그인 상태 변경:', newVal);
     }
   }

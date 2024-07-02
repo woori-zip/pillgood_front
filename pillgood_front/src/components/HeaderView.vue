@@ -67,14 +67,14 @@ export default {
     isLoggedIn(newVal) {
       console.log('로그인 상태 변경:', newVal);
     }
-  },
-  created() {
-    // 주기적으로 isLoggedIn 상태 확인
-    setInterval(() => {
-      // isLoggedIn 상태를 확인하는 디버깅 로그를 추가
-      // console.log('mapState 안 된다고!!!! :', this.isLoggedIn);
-      console.log('10초마다 isLoggedIn 상태 확인:', this.$store.state.isLoggedIn);
-    }, 10000); // 10초마다 실행
   }
+  // created() {
+  //   // 주기적으로 isLoggedIn 상태 확인
+  //   setInterval(() => {
+  //     // isLoggedIn 상태를 확인하는 디버깅 로그를 추가
+  //     // console.log('mapState 안 된다고!!!! :', this.isLoggedIn);
+  //     console.log('10초마다 isLoggedIn 상태 확인:', this.$store.state.isLoggedIn);
+  //   }, 10000); // 10초마다 실행
+  // }
 };
 </script>
