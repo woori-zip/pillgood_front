@@ -37,13 +37,13 @@ const actions = {
   async fetchMemberInfo({ state, commit }, memberId) {
     try {
       memberId = memberId || state.memberId;
-      console.log('Fetching member info for ID:', memberId); // 디버깅 로그
+      // console.log('Fetching member info for ID:', memberId); // 디버깅 로그
       const response = await axios.get(`/members/findById`, { params: { memberId } });
-      console.log('사용자 정보 응답:', response.data); // 디버깅 로그 추가
+      // console.log('사용자 정보 응답:', response.data); // 디버깅 로그 추가
       if (response.status === 200) {
         const member = response.data.user;
         const isAdmin = member.memberLevel === 'ADMIN'; // 관리자 여부 확인
-        console.log('관리자 여부 확인:', isAdmin); // 관리자 여부 로그 추가
+        // console.log('관리자 여부 확인:', isAdmin); // 관리자 여부 로그 추가
         commit('setLoginState', { isLoggedIn: true, memberId: memberId, member: member, isAdmin: isAdmin });
       } else {
         commit('setLoginState', { isLoggedIn: false, memberId: null, member: null, isAdmin: false });
@@ -56,7 +56,7 @@ const actions = {
   async checkLoginStatus({ commit, dispatch }) {
     try {
       const response = await axios.get('/members/check-session', { withCredentials: true });
-      console.log('세션 체크 응답:', response.data); // 디버깅 로그 추가
+      // console.log('세션 체크 응답:', response.data); // 디버깅 로그 추가
       if (response.status === 200) {
         const memberId = response.data.user.memberUniqueId; // 세션 체크 응답에서 memberId 추출
         await dispatch('fetchMemberInfo', memberId); // memberId 전달
@@ -64,7 +64,7 @@ const actions = {
         commit('setLoginState', { isLoggedIn: false, memberId: null, member: null });
       }
     } catch (error) {
-      console.error('checkLoginStatus 에러:', error);
+      // console.error('checkLoginStatus 에러:', error);
       commit('setLoginState', { isLoggedIn: false, memberId: null, member: null });
     }
   },

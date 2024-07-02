@@ -17,9 +17,9 @@ const actions = {
       console.log('영양소 API 응답:', response.data); // 응답 데이터 로그
       if (response.status === 200) {
         commit('setNutrients', response.data);
-        console.log('영양소 데이터 가져오기 성공:', response.data);
+        // console.log('영양소 데이터 가져오기 성공:', response.data);
       } else {
-        console.error('영양소 데이터 가져오기 실패:', response.data);
+        // console.error('영양소 데이터 가져오기 실패:', response.data);
         throw new Error('영양소 데이터 가져오기 실패');
       }
     } catch (error) {

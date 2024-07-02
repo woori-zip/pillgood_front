@@ -37,8 +37,11 @@
           </td>
         </tr>
       </table>
-      <div class="btn-container">
-        <button type="submit" class="btn btn-green" style="width: 400px;">Create Product</button>
+      <div class="box-container">
+        <div class="btn-container">
+          <button type="submit" class="btn btn-green">Create Product</button>
+          <button class="btn btn-gray" @click="navigateToProductList">Cancel</button>
+        </div>
       </div>
     </form>
   </div>
@@ -95,6 +98,9 @@ export default {
         stock: '',
         target: '공통'
       };
+    },
+    navigateToProductList() {
+      this.$router.push('/productlist');
     }
   }
 };

@@ -30,14 +30,14 @@ export default {
   },
   async created() {
     try {
-      console.log('App created lifecycle hook');
+      // console.log('App created lifecycle hook');
       await this.checkLoginStatus();
-      console.log('checkLoginStatus 처리 완료');
-      console.log("state의 memberId: " + this.memberId); // 상태 업데이트 확인
+      // console.log('checkLoginStatus 처리 완료');
+      // console.log("state의 memberId: " + this.memberId); // 상태 업데이트 확인
       if (this.isLoggedIn && this.memberId) {
-        console.log('로그인됨, 사용자 정보 가져오는 중');
+        // console.log('로그인됨, 사용자 정보 가져오는 중');
         await this.fetchMemberInfo(this.memberId);
-        console.log('fetchMemberInfo 처리 완료'); // fetchMemberInfo 완료 확인
+        // console.log('fetchMemberInfo 처리 완료'); // fetchMemberInfo 완료 확인
       } else {
         console.log('로그인되지 않았거나 memberId가 없음');
       }
@@ -51,7 +51,7 @@ export default {
         console.log('세션 상태 확인 중...');
         await this.checkLoginStatus();
         if (this.isLoggedIn) {
-          console.log('30초마다 세션 테스트 중');
+          console.log('36초마다 세션 테스트 중');
           await this.fetchMemberInfo(this.memberId);
           const member = this.member;
           if (member) {
@@ -65,7 +65,7 @@ export default {
       } catch (error) {
         console.error('세션 상태 확인 중 에러:', error);
       }
-    }, 30000); // 30초마다 실행
+    }, 60000); // 60초마다 실행
   },
   watch: {
     isLoggedIn(newVal) {
