@@ -171,3 +171,28 @@ td input {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
 }
+
+/* -------------------------------------------------------------icon */
+
+.icon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin: 5px;
+  font-size: 1.5em;
+  color: #000;
+  text-decoration: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.icon-link:hover {
+  color: #007BFF; /* 호버 시 색상 변경 */
+}
+
+/* 버튼의 기본 스타일 제거 */
+button.icon-link {
+  all: unset;
+}

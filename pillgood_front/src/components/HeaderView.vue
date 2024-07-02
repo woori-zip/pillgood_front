@@ -27,16 +27,32 @@
               <router-link v-else to="/login" class="icon-link">
                 <i class="fa-solid fa-user"></i>
               </router-link>
-              <i class="fa-solid fa-location-dot"></i>
-              <i class="fa-solid fa-heart"></i>
-              <i class="fa-solid fa-cart-shopping"></i>
+              <router-link to="#" class="icon-link">
+                <i class="fa-solid fa-location-dot"></i>
+              </router-link>
+              <router-link to="#" class="icon-link">
+                <i class="fa-solid fa-heart"></i>
+              </router-link>
+              <router-link to="/cart" class="icon-link" @click="navigateToCart">
+                <i class="fa-solid fa-cart-shopping"></i>
+              </router-link>
             </div>
           </div>
-          <!-- 카테고리 -->
-          <nav class="nav-container">
+          <!-- 일반 사용자 카테고리 -->
+          <nav class="nav-container" v-if="!isAdmin">
             <ul>
               <li><a href="#"><i class="fa-solid fa-bars"></i>&nbsp;카테고리</a></li>
               <li><a href="#">신제품</a></li>
+              <li><a href="#">베스트</a></li>
+              <li><a href="#">필굿리포트</a></li>
+            </ul>
+          </nav>
+          <!-- 관리자 카테고리 -->
+          <nav class="nav-container" v-if="isAdmin">
+            <ul>
+              <li><a href="#">회원관리</a></li>
+              <!-- 상품목록 페이지로 수정 예정. 목록 페이지 안 만들어서 등록 페이지 붙임. -->
+              <li><a href="/productcreate">상품관리</a></li>
               <li><a href="#">베스트</a></li>
               <li><a href="#">필굿리포트</a></li>
             </ul>
@@ -54,27 +70,36 @@ import '../assets/layout.css';
 export default {
   name: 'HeaderView',
   computed: {
-    ...mapState({
-      isLoggedIn: state => state.isLoggedIn
+    ...mapState('member', {
+      isLoggedIn: state => state.isLoggedIn,
+      isAdmin: state => state.isAdmin
     })
   },
   methods: {
     logout() {
-      this.$store.dispatch('logout');
+      this.$store.dispatch('member/logout');
+      this.$router.push('/');
+    },
+    navigateToCart() {
+      if (this.isLoggedIn) {
+        this.$router.push('/cart');
+      } else {
+        this.$router.push('/login');
+      }
     }
   },
   watch: {
     isLoggedIn(newVal) {
       console.log('로그인 상태 변경:', newVal);
     }
+  },
+  created() {
+    // 주기적으로 isLoggedIn 상태 확인
+    setInterval(() => {
+      // isLoggedIn 상태를 확인하는 디버깅 로그를 추가
+      // console.log('mapState 안 된다고!!!! :', this.isLoggedIn);
+      console.log('10초마다 isLoggedIn 상태 확인:', this.isLoggedIn);
+    }, 10000); // 10초마다 실행
   }
-  // created() {
-  //   // 주기적으로 isLoggedIn 상태 확인
-  //   setInterval(() => {
-  //     // isLoggedIn 상태를 확인하는 디버깅 로그를 추가
-  //     // console.log('mapState 안 된다고!!!! :', this.isLoggedIn);
-  //     console.log('10초마다 isLoggedIn 상태 확인:', this.$store.state.isLoggedIn);
-  //   }, 10000); // 10초마다 실행
-  // }
 };
 </script>

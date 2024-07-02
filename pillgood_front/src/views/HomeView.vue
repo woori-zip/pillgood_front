@@ -40,7 +40,7 @@
   <h6 class="fw-normal mt-3 name-bold">Name</h6>
   <p class="price-red price-font">가격</p>
 </div>
-     <div class="col-lg-2 col-md-4 col-sm-6 text-center mb-3">
+<div class="col-lg-2 col-md-4 col-sm-6 text-center mb-3">
   <svg class="bd-placeholder-img" width="140" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false">
     <title>Placeholder</title>
     <rect width="100%" height="100%" fill="var(--bs-secondary-color)"/>

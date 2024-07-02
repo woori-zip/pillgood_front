@@ -4,18 +4,18 @@
       <h4 class="text-melon">마이페이지</h4>
       <div>
         <div v-if="user">
-          <table>
+          <table class="mypage">
             <tr>
               <td><label for="email">이메일:</label></td>
-              <td><input type="email" :value="user.email" :readonly="!isEditing"/></td>
+              <td><input type="email" v-model="user.email" :readonly="!isEditing"/></td>
             </tr>
             <tr>
               <td><label for="name">이름:</label></td>
-              <td><input type="email" :value="user.name" :readonly="!isEditing"/></td>
+              <td><input type="text" v-model="user.name" :readonly="!isEditing"/></td>
             </tr>
             <tr>
               <td><label for="age">나이:</label></td>
-              <td><input type="email" :value="user.age" readonly/></td>
+              <td><input type="text" :value="user.age" readonly/></td>
             </tr>
             <tr>
               <td><label for="gender">성별:</label></td>
@@ -30,15 +30,15 @@
             </tr>
             <tr>
               <td><label for="phoneNumber">전화번호:</label></td>
-              <td><input type="email" :value="user.phoneNumber" :readonly="!isEditing"/></td>
+              <td><input type="text" v-model="user.phoneNumber" :readonly="!isEditing"/></td>
             </tr>
             <tr>
               <td><label for="subscriptionStatus">구독 상태:</label></td>
-              <td><input type="email" :value="user.subscriptionStatus" readonly/></td>
+              <td><input type="text" :value="user.subscriptionStatus" readonly/></td>
             </tr>
             <tr>
               <td><label for="registrationDate">가입 일자:</label></td>
-              <td><input type="email" :value="user.registrationDate" readonly/></td>
+              <td><input type="text" :value="formatDate(user.registrationDate)" readonly/></td>
             </tr>
           </table>
           <div class="btn-container">
@@ -53,7 +53,7 @@
       </div>
     </div>
 
-    <!-- 비밀번호 확인 모달찰 -->
+    <!-- 비밀번호 확인 모달창 -->
     <div v-if="showPasswordModal" class="modal">
       <div class="box-container box-shadow">
         <h4>비밀번호 확인</h4>
@@ -76,8 +76,9 @@ export default {
     return {
       user: null,
       isEditing: false,
-      password: '', // Add password field
+      password: '',
       showPasswordModal: false,
+      errors: {}
     };
   },
   created() {
@@ -141,6 +142,10 @@ export default {
       this.isEditing = false;
       this.fetchUserProfile();
     },
-  },
+    formatDate(date) {
+      if (!date) return '';
+      return new Date(date).toISOString().split('T')[0];
+    }
+  }
 };
 </script>
