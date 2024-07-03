@@ -1,4 +1,4 @@
-import axios from '../../axios'; // 설정된 axios 인스턴스 불러오기
+import axios from '../../axios';
 
 const state = {
   products: []
@@ -7,14 +7,12 @@ const state = {
 const mutations = {
   addProduct(state, product) {
     state.products.push(product);
-    // console.log('Vuex 상태에 저장된 제품 목록:', state.products); // 상태 로그 추가
   },
   setProducts(state, products) {
     state.products = products;
-    // console.log('Vuex 상태에 저장된 제품 목록:', state.products); // 상태 로그 추가
   },
   updateProductStatus(state, { productId, active }) {
-    const product = state.products.find(p => p.productId === productId);
+    const product = state.products.find(product => product.productId === productId);
     if (product) {
       product.active = active;
     }
@@ -23,7 +21,7 @@ const mutations = {
 
 const actions = {
   async createProduct({ commit }, product) {
-    const response = await axios.post('/products', product); // 서버 엔드포인트 URL을 사용하여 제품 생성
+    const response = await axios.post('/admin/products/create', product);
     if (response.status === 201) {
       commit('addProduct', response.data);
     } else {
@@ -32,26 +30,27 @@ const actions = {
   },
   async fetchProducts({ commit }) {
     try {
-      const response = await axios.get('/admin/products/list'); // 서버 엔드포인트 URL을 사용하여 제품 목록 조회
+      const response = await axios.get('/admin/products/list');
       if (response.status === 200) {
         const products = Array.isArray(response.data) && Array.isArray(response.data[0]) ? response.data[0] : response.data;
-        commit('setProducts', products); // 제품 목록을 상태에 저장
+        commit('setProducts', products);
       } else {
         throw new Error('제품 조회 실패');
       }
     } catch (error) {
-      console.log('제품을 불러오는 데 실패했습니다. ', error)
+      console.error('제품을 불러오는 데 실패했습니다. ', error);
       throw error;
     }
   },
   async updateProductStatus({ commit }, { productId, active }) {
     try {
-      const response = await axios.put(`/admin/products/${productId}/status`, { active }); // 프록시를 사용하여 API 요청
-      if (response.status === 200) {
+      const response = await axios.put(`/admin/products/${productId}/status`, { active });
+      console.log('서버 응답:', response); // 서버 응답 로그 추가
+      if (response && response.status === 200) {
         commit('updateProductStatus', { productId, active });
-        console.log('제품 상태 업데이트 성공:', response.data);
+        return response; // 응답을 반환
       } else {
-        console.error('제품 상태 업데이트 실패:', response.data);
+        console.error('제품 상태 업데이트 실패:', response);
         throw new Error('제품 상태 업데이트 실패');
       }
     } catch (error) {

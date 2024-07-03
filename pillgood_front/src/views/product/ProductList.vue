@@ -1,6 +1,22 @@
 <template>
-  <div class="main-container">
+  <div class="main-container box-shadow">
     <h1 class="text-melon">제품 목록</h1>
+    <div style="display: flex; align-items: center">
+      <select style="width:150px;" v-model="selectedFilter">
+        <option value="">- 선택 -</option>
+        <option value="productName">제품명</option>
+        <option value="nutrient">성분</option>
+        <option value="target">대상</option>
+        <option value="active">상태</option>
+      </select>
+      <input v-if="selectedFilter !== 'active'" v-model="searchQuery" placeholder="검색어를 입력하세요">
+      <select v-else v-model="searchQuery">
+        <option value="">상태 선택</option>
+        <option :value="true">Active</option>
+        <option :value="false">Inactive</option>
+      </select>
+      <button class="small-btn" @click="resetFilters">초기화</button>
+    </div>
     <table class="line-table">
       <thead>
         <tr>
@@ -10,7 +26,7 @@
           <th>재고</th>
           <th>대상</th>
           <th>상태</th>
-          <th colspan='2'>관리</th>
+          <th v-if="isAdmin">관리</th>
         </tr>
       </thead>
       <tbody>
@@ -20,16 +36,14 @@
           <td>{{ product.price }}</td>
           <td>{{ product.stock }}</td>
           <td>{{ product.target }}</td>
-          <!-- <td>{{ product.active ? '활성' : '비활성' }}</td> -->
-          <td style="display:flex;">
-            <select v-model="product.active">
+          <td>{{ product.active ? '활성' : '비활성' }}</td>
+          <td v-if="isAdmin">
+            <select v-model="product.active" style="width:150px;">
               <option :value="true">활성</option>
               <option :value="false">비활성</option>
             </select>
-            <!-- <button class="table-btn" @click="confirmUpdateStatus(product)">확인</button> -->
-          </td>
-          <td>
-            <button class="table-btn" @click="editProduct(product)">Edit</button>
+            <button class="small-btn" @click="confirmUpdateStatus(product)">확인</button>
+            <button class="small-btn" @click="editProduct(product)">Edit</button>
           </td>
         </tr>
       </tbody>
@@ -42,13 +56,44 @@ import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
   name: 'ProductList',
+  data() {
+    return {
+      selectedFilter: '',
+      searchQuery: ''
+    };
+  },
   computed: {
     ...mapGetters('product', ['products']),
     ...mapGetters('nutrient', ['nutrients']),
     ...mapState('member', ['isAdmin']),
     filteredProducts() {
-      // 관리자가 아닌 경우 active 상태인 제품만 반환
-      return this.isAdmin ? this.products : this.products.filter(product => product.active)
+      let products = this.products;
+
+      // Admin이 아닐 경우, active 상태인 제품만 반환
+      if (!this.isAdmin) {
+        products = products.filter(product => product.active);
+      }
+
+      if (this.selectedFilter && this.searchQuery) {
+        if (this.selectedFilter === 'productName') {
+          products = products.filter(product =>
+            product.productName.toLowerCase().includes(this.searchQuery.toLowerCase())
+          );
+        } else if (this.selectedFilter === 'nutrient') {
+          products = products.filter(product =>
+            this.getNutrientName(product.nutrientId).toLowerCase().includes(this.searchQuery.toLowerCase())
+          );
+        } else if (this.selectedFilter === 'target') {
+          products = products.filter(product =>
+            product.target.toLowerCase().includes(this.searchQuery.toLowerCase())
+          );
+        } else if (this.selectedFilter === 'active') {
+          const isActive = this.searchQuery === 'true';
+          products = products.filter(product => product.active === isActive);
+        }
+      }
+
+      return products;
     }
   },
   async created() {
@@ -57,8 +102,6 @@ export default {
     
     await this.fetchProducts(); // 관리자 여부와 관계없이 제품 목록을 로드
     await this.fetchNutrients();
-    // console.log('제품 목록 로드 완료:', this.products);
-    // console.log('영양소 목록 로드 완료:', this.nutrients);
   },
   methods: {
     ...mapActions('member', ['checkLoginStatus']),
@@ -66,7 +109,7 @@ export default {
     ...mapActions('nutrient', ['fetchNutrients']),
     getNutrientName(nutrientId) {
       const nutrient = this.nutrients.find(n => n.nutrientId === nutrientId);
-      return nutrient ? nutrient.name : 'Unknown';
+      return nutrient ? nutrient.nutrientName : 'Unknown';
     },
     editProduct(product) {
       console.log('Edit product:', product);
@@ -75,21 +118,25 @@ export default {
     async confirmUpdateStatus(product) {
       console.log('확인 버튼 클릭 - 업데이트할 제품:', product);
       try {
-        await this.updateProductStatus({ productId: product.productId, active: product.active });
-        console.log('제품 상태 업데이트 완료:', product);
-        alert('제품 상태가 업데이트되었습니다.');
+        const response = await this.updateProductStatus({ productId: product.productId, active: product.active });
+        console.log('상태 변경할 제품:', product);
+        console.log('서버 응답:', response); // 서버 응답 로그 추가
+        // 변경된 부분: response가 존재하고 status가 200인지 확인
+        if (response && response.status === 200) {
+          console.log('제품 상태 업데이트 완료:', product);
+          alert('제품 상태가 업데이트되었습니다.');
+        } else {
+          console.error('제품 상태 업데이트 실패:', response);
+          alert('제품 상태 업데이트에 실패했습니다.');
+        }
       } catch (error) {
-        console.error('제품 상태 업데이트 실패:', error);
-        alert('제품 상태 업데이트에 실패했습니다.');
+        console.error('상태 변경 실패:', error);
+        alert('상태 변경에 실패했습니다.');
       }
-    }
-  },
-  watch: {
-    isAdmin(newVal) {
-      console.log('isAdmin changed:', newVal);
     },
-    products(newProducts) {
-      console.log('제품 목록 변경:', newProducts);
+    resetFilters() {
+      this.selectedFilter = '';
+      this.searchQuery = '';
     }
   }
 };
@@ -112,16 +159,17 @@ export default {
   align-items: center; /* 세로 중앙 정렬 */
 }
 
-.line-table tbody tr:nth-child(even) {
+.line-table tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-td button {
+.small-btn {
   display: inline-block;
   white-space: nowrap;
   height: 100%;
   border: 0;
   background: #D5D9C4;
   border-radius: 5px;
+  margin-right: 5px;
 }
 </style>

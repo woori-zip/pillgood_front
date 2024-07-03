@@ -35,9 +35,9 @@ export default {
       // console.log('checkLoginStatus 처리 완료');
       // console.log("state의 memberId: " + this.memberId); // 상태 업데이트 확인
       if (this.isLoggedIn && this.memberId) {
-        // console.log('로그인됨, 사용자 정보 가져오는 중');
+        console.log('로그인됨, 사용자 정보 가져오는 중');
         await this.fetchMemberInfo(this.memberId);
-        // console.log('fetchMemberInfo 처리 완료'); // fetchMemberInfo 완료 확인
+        console.log('fetchMemberInfo 처리 완료'); // fetchMemberInfo 완료 확인
       } else {
         console.log('로그인되지 않았거나 memberId가 없음');
       }
@@ -51,14 +51,14 @@ export default {
         console.log('세션 상태 확인 중...');
         await this.checkLoginStatus();
         if (this.isLoggedIn) {
-          console.log('36초마다 세션 테스트 중');
+          console.log('60초마다 세션 테스트 중');
           await this.fetchMemberInfo(this.memberId);
-          const member = this.member;
-          if (member) {
-            console.log(`현재 로그인된 사용자 ID: ${this.memberId}`);
-          } else {
-            console.log(`로그인한 사용자가 없습니다.`);
-          }
+          // const member = this.member;
+          // if (member) {
+          //   console.log(`현재 로그인된 사용자 ID: ${this.memberId}`);
+          // } else {
+          //   console.log(`로그인한 사용자가 없습니다.`);
+          // }
         } else {
           console.log('로그인된 사용자가 없음');
         }
