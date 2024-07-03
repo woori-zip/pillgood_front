@@ -7,15 +7,10 @@
         <option value="productName">제품명</option>
         <option value="nutrient">성분</option>
         <option value="target">대상</option>
-        <option value="active">상태</option>
       </select>
-      <input v-if="selectedFilter !== 'active'" v-model="searchQuery" placeholder="검색어를 입력하세요">
-      <select v-else v-model="searchQuery">
-        <option value="">상태 선택</option>
-        <option :value="true">Active</option>
-        <option :value="false">Inactive</option>
-      </select>
+      <input v-model="searchQuery" :disabled="!selectedFilter" placeholder="검색어를 입력하세요">
       <button class="small-btn" @click="resetFilters">초기화</button>
+      <router-link class="small-btn" to="/productcreate">+제품 등록</router-link>
     </div>
     <table class="line-table">
       <thead>
@@ -59,41 +54,33 @@ export default {
   data() {
     return {
       selectedFilter: '',
-      searchQuery: ''
+      searchQuery: '',
     };
   },
   computed: {
     ...mapGetters('product', ['products']),
     ...mapGetters('nutrient', ['nutrients']),
     ...mapState('member', ['isAdmin']),
+    // 제품 검색
     filteredProducts() {
-      let products = this.products;
-
-      // Admin이 아닐 경우, active 상태인 제품만 반환
-      if (!this.isAdmin) {
-        products = products.filter(product => product.active);
+      // selectedFilter와 searchQuery가 둘 다 없으면 전체 제품 목록 반환
+      if (!this.selectedFilter && !this.searchQuery) {
+        return this.products;
       }
 
-      if (this.selectedFilter && this.searchQuery) {
+      const query = this.searchQuery.toLowerCase();
+
+      return this.products.filter(product => {
         if (this.selectedFilter === 'productName') {
-          products = products.filter(product =>
-            product.productName.toLowerCase().includes(this.searchQuery.toLowerCase())
-          );
+          return product.productName && product.productName.toLowerCase().includes(query);
         } else if (this.selectedFilter === 'nutrient') {
-          products = products.filter(product =>
-            this.getNutrientName(product.nutrientId).toLowerCase().includes(this.searchQuery.toLowerCase())
-          );
+          const nutrientName = this.getNutrientName(product.nutrientId);
+          return nutrientName && nutrientName.toLowerCase().includes(query);
         } else if (this.selectedFilter === 'target') {
-          products = products.filter(product =>
-            product.target.toLowerCase().includes(this.searchQuery.toLowerCase())
-          );
-        } else if (this.selectedFilter === 'active') {
-          const isActive = this.searchQuery === 'true';
-          products = products.filter(product => product.active === isActive);
+          return product.target && product.target.toLowerCase().includes(query);
         }
-      }
-
-      return products;
+        return true;
+      });
     }
   },
   async created() {
@@ -121,7 +108,6 @@ export default {
         const response = await this.updateProductStatus({ productId: product.productId, active: product.active });
         console.log('상태 변경할 제품:', product);
         console.log('서버 응답:', response); // 서버 응답 로그 추가
-        // 변경된 부분: response가 존재하고 status가 200인지 확인
         if (response && response.status === 200) {
           console.log('제품 상태 업데이트 완료:', product);
           alert('제품 상태가 업데이트되었습니다.');
@@ -141,6 +127,7 @@ export default {
   }
 };
 </script>
+
 
 <style>
 .line-table {
@@ -171,5 +158,13 @@ export default {
   background: #D5D9C4;
   border-radius: 5px;
   margin-right: 5px;
+  text-decoration-line: none;
+  color: black;
+  padding: 2px;
+}
+
+.small-btn:hover {
+  color:black;
+  background: #C6EDC2;
 }
 </style>
