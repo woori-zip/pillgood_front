@@ -110,6 +110,19 @@
         display: block !important;
       }
       
+<<<<<<< Updated upstream
+=======
+      .btn-green {
+        background-color: #C6EDC2;
+        border: none;
+      }
+      
+      .btn-green:hover {
+        background-color: #4cae4c;
+        color: white;
+      }
+
+>>>>>>> Stashed changes
       #carousel-control:hover {
         background-color: white;
         opacity: 10%;

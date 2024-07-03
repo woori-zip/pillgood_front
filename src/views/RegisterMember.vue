@@ -3,7 +3,11 @@
   <div v-if="!formVisible" class="box-container box-shadow" id="register_agree">
     <h4 class="text-melon">회원 가입</h4>
     <h6>[약관 동의]</h6>
+<<<<<<< Updated upstream
     <form id="agreementfrm" @submit.prevent="validateAgreement" >
+=======
+    <form id="agreementfrm" @submit.prevent="validateAgreement">
+>>>>>>> Stashed changes
       <div id="fregister_chkall" class="check-container">
         <input type="checkbox" v-model="allChecked" @change="checkAllAgreements" id="chk_all">
         <label for="chk_all">회원가입 약관에 모두 동의합니다</label>
@@ -31,6 +35,7 @@
   </div>
   <!-- 회원가입 -->
   <div class="box-container box-shadow" v-if="formVisible">
+<<<<<<< Updated upstream
   <form @submit.prevent="createMember" id="createMemberfrm">
     <table>
       <tr>
@@ -56,10 +61,38 @@
       </tr>
       <tr>
         <td><label for="birthdate">생년월일:&nbsp;</label></td>
+=======
+    <form @submit.prevent="createMember" id="createMemberfrm">
+      <table>
+        <tr>
+          <td><label for="email">이메일:</label></td>
+          <td>
+            <input type="email" v-model="member.email" @blur="validateEmail" required />
+            <p v-if="errors.email" class="text-danger">{{ errors.email }}</p>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="password">비밀번호:</label></td>
+          <td>
+            <input type="password" v-model="member.password" @blur="validatePassword" required />
+            <p v-if="errors.password" class="text-danger">{{ errors.password }}</p>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="name">이름:</label></td>
+          <td>
+            <input type="text" v-model="member.name" @blur="validateName" required />
+            <p v-if="errors.name" class="text-danger">{{ errors.name }}</p>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="birthdate">생년월일:&nbsp;</label></td>
+>>>>>>> Stashed changes
           <td>
             <v-date-picker v-model="member.birthdate" is-inline @blur="validateBirthdate" required />
             <p v-if="errors.birthdate" class="text-danger">{{ errors.birthdate }}</p>
           </td>
+<<<<<<< Updated upstream
       </tr>
       <tr>
         <td><label for="gender">성별:</label></td>
@@ -97,10 +130,50 @@
   
   export default {
     components: {
+=======
+        </tr>
+        <tr>
+          <td><label for="gender">성별:</label></td>
+          <td>
+            <select v-model="member.gender" @blur="validateGender" required>
+              <option value="N">성별을 선택하세요</option>
+              <option value="M">남자</option>
+              <option value="F">여자</option>
+            </select>
+            <span v-if="errors.gender" class="text-danger">{{ errors.gender }}</span>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="phoneNumber">전화번호:</label></td>
+          <td>
+            <input type="text" v-model="member.phoneNumber" @blur="validatePhoneNumber" required />
+            <span v-if="errors.phoneNumber" class="text-danger">{{ errors.phoneNumber }}</span>
+          </td>
+        </tr>
+      </table>
+      <div class="btn-container">
+        <button type="submit" class="btn btn-green">회원 가입</button>
+        <button type="button" class="btn btn-gray" @click="cancelRegistration">취소</button>
+      </div>
+    </form>
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+import '../assets/styles.css';
+import TermsContent1 from '@/components/TermsContent1.vue';
+import TermsContent2 from '@/components/TermsContent2.vue';
+import { DatePicker } from 'v-calendar';
+
+export default {
+  components: {
+>>>>>>> Stashed changes
     TermsContent1,
     TermsContent2,
     'v-date-picker': DatePicker 
   },
+<<<<<<< Updated upstream
     data() {
       return {
         member: {
@@ -243,3 +316,147 @@
     }
   }
   </script>
+=======
+  data() {
+    return {
+      member: {
+        email: '',
+        password: '',
+        name: '',
+        birthdate: '',
+        age: null,
+        gender: 'N',
+        phoneNumber: '',
+      },
+      allChecked: false,
+      agree11: false,
+      agree22: false,
+      formVisible: false,
+      errors: {},
+    }
+  },
+  watch: {
+    agree11() {
+      this.updateAllChecked();
+    },
+    agree22() {
+      this.updateAllChecked();
+    }
+  },
+  methods: {
+    checkAllAgreements() {
+      if(this.allChecked) {
+        this.agree11 = true;
+        this.agree22 = true;
+      } else {
+        this.agree11 = false;
+        this.agree22 = false;
+      }
+    },
+    updateAllChecked() {
+      this.allChecked = this.agree11 && this.agree22;
+    },
+    validateAgreement() {
+      if (this.agree11 && this.agree22) {
+        this.formVisible = true;
+      } else {
+        alert("모든 필수 약관에 동의해야 합니다.");
+      }
+    },
+    toLogin() {
+      this.$router.push('/login');
+    },
+    validateEmail() {
+      if (!this.member.email.includes('@')) {
+        this.errors.email = '유효한 이메일 주소를 입력하세요.';
+      } else {
+        delete this.errors.email;
+      }
+    },
+    validatePassword() {
+      if (this.member.password.length < 6) {
+        this.errors.password = '비밀번호는 최소 6 자 이상이어야 합니다.';
+      } else {
+        delete this.errors.password;
+      }
+    },
+    validateName() {
+      if (this.member.name.trim() === '') {
+        this.errors.name = '이름을 입력하세요.';
+      } else {
+        delete this.errors.name;
+      }
+    },
+    validateBirthdate() {
+      if (!this.member.birthdate) {
+        this.errors.birthdate = '생년월일을 선택하세요.';
+      } else {
+        delete this.errors.birthdate;
+      }
+    },
+    validateGender() {
+      if (this.member.gender === 'N') {
+        this.errors.gender = '성별을 선택하세요.';
+      } else {
+        delete this.errors.gender;
+      }
+    },
+    validatePhoneNumber() {
+      if (this.member.phoneNumber.length <= 10) {
+        this.errors.phoneNumber = '유효한 전화번호를 입력하세요.';
+      } else {
+        delete this.errors.phoneNumber;
+      }
+    },
+    calculateAge(birthdate) { // Typo fixed here: from carculateAge to calculateAge
+      const today = new Date();
+      const birthDate = new Date(birthdate);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDifference = today.getMonth() - birthDate.getMonth();
+      if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      return age;
+    },
+    createMember() {
+      this.validateEmail();
+      this.validatePassword();
+      this.validateName();
+      this.validateBirthdate();
+      this.validateGender();
+      this.validatePhoneNumber();
+      console.log('Errors:', this.errors);
+      if (Object.keys(this.errors).length === 0) {
+        this.member.age = this.calculateAge(this.member.birthdate);
+        console.log('Sending request to server...');
+        axios
+          .post('http://localhost:9095/members/register', this.member)
+          .then(response => {
+            console.log('Server response:', response.data);
+            alert('회원 가입이 완료되었습니다.');
+            this.$router.push('/login');
+          })
+          .catch(error => {
+            console.error('Error during registration:', error);
+            alert('회원 가입에 실패했습니다.');
+          });
+      } else {
+        alert('폼을 올바르게 작성하세요.');
+      }
+    },
+    cancelRegistration() {
+      this.member = {
+        email: '',
+        password: '',
+        name: '',
+        birthdate: '',
+        age: null,
+        gender: 'N',
+        phoneNumber: '',
+      };
+      this.errors = {};
+    }
+  }
+}
+</script>
+>>>>>>> Stashed changes

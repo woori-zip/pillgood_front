@@ -25,11 +25,32 @@ body {
   text-align: center;
 }
 
+<<<<<<< Updated upstream
+=======
+.box-container-wide {
+  background: white;
+  padding: 30px;
+  width: 80%;
+  margin: 20px auto;
+  text-align: center;
+  word-wrap: break-word; /* 자동 줄바꿈 추가 */
+}
+
+>>>>>>> Stashed changes
 .box-shadow {
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+<<<<<<< Updated upstream
+=======
+.check-container-vertical {
+  display: flex;
+  flex-direction: column; /* 세로 배열로 변경 */
+  align-items: flex-start;
+}
+
+>>>>>>> Stashed changes
 @media (max-width: 1200px) {
   .main-container {
     width: 100%;
@@ -136,6 +157,13 @@ h1 {
   font-weight: bold;
 }
 
+<<<<<<< Updated upstream
+=======
+.question-text {
+  white-space: normal; /* 줄바꿈 허용 */
+}
+
+>>>>>>> Stashed changes
 /* -------------------------------------------------------------table */
 
 table {

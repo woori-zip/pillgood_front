@@ -15,6 +15,7 @@
             </tr>
             <tr>
               <td><label for="age">나이:</label></td>
+<<<<<<< Updated upstream
               <td>
                 <div v-if="isEditing">
                   <v-date-picker v-model="birthdate" @change="updateAge" is-inline />
@@ -23,6 +24,9 @@
                   <input type="text" :value="user.age" readonly/>
                 </div>
               </td>
+=======
+              <td><input type="text" :value="user.age" readonly/></td>
+>>>>>>> Stashed changes
             </tr>
             <tr>
               <td><label for="gender">성별:</label></td>
@@ -76,6 +80,7 @@
 
 <script>
 import axios from 'axios';
+<<<<<<< Updated upstream
 import { DatePicker } from 'v-calendar';
 
 export default {
@@ -83,13 +88,21 @@ export default {
   components: {
     'v-date-picker': DatePicker
   },
+=======
+
+export default {
+  name: 'MyPage',
+>>>>>>> Stashed changes
   data() {
     return {
       user: null,
       isEditing: false,
       password: '',
       showPasswordModal: false,
+<<<<<<< Updated upstream
       birthdate: null,
+=======
+>>>>>>> Stashed changes
       errors: {}
     };
   },
@@ -111,9 +124,12 @@ export default {
     },
     toggleEdit() {
       this.isEditing = !this.isEditing;
+<<<<<<< Updated upstream
       if (this.isEditing) {
         this.birthdate = new Date();
       }
+=======
+>>>>>>> Stashed changes
     },
     showPasswordPrompt() {
       this.showPasswordModal = true;
@@ -140,7 +156,10 @@ export default {
     },
     async updateMember() {
       try {
+<<<<<<< Updated upstream
         this.user.age = this.calculateAge(this.birthdate); // 나이 계산
+=======
+>>>>>>> Stashed changes
         const response = await axios.put(`http://localhost:9095/members/update/${this.user.memberUniqueId}`, this.user);
         if (response.status === 200) {
           this.user = response.data;
@@ -158,6 +177,7 @@ export default {
       this.isEditing = false;
       this.fetchUserProfile();
     },
+<<<<<<< Updated upstream
     updateAge(date) {
       this.birthdate = date;
       this.user.age = this.calculateAge(date);
@@ -173,10 +193,16 @@ export default {
       }
       return age;
     },
+=======
+>>>>>>> Stashed changes
     formatDate(date) {
       if (!date) return '';
       return new Date(date).toISOString().split('T')[0];
     }
   }
 };
+<<<<<<< Updated upstream
 </script>
+=======
+</script>
+>>>>>>> Stashed changes
