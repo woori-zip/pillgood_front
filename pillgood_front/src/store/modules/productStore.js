@@ -22,6 +22,7 @@ const mutations = {
 const actions = {
   async createProduct({ commit }, product) {
     const response = await axios.post('/admin/products/create', product);
+    // console.log("제품 등록 서버 응답:", response);
     if (response.status === 201) {
       commit('addProduct', response.data);
     } else {

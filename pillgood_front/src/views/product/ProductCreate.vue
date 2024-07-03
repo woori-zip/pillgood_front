@@ -44,7 +44,7 @@
           </td>
         </tr>
       </table>
-      <RichTextEditor />
+      <RichTextEditor v-model="product.productImage" contentType="html"/>
       <div class="box-container">
         <div class="btn-container">
           <button type="submit" class="btn btn-green">Create Product</button>
@@ -68,11 +68,12 @@ export default {
     return {
       product: {
         productName: '',
-        nutrientId: null, // 초기값 설정
+        nutrientId: null, 
         price: '',
         stock: '',
-        target: '공통', // 초기값 설정
-        active: true // 제품 상태를 활성으로 초기화
+        target: '공통',
+        productImage: '', 
+        active: true 
       },
       newNutrientName: '', // 새로 추가되는 nutrient name
       newNutrientDescription: '' // 새로 추가되는 nutrient description
@@ -124,21 +125,13 @@ export default {
     },
     async handleCreateProduct() {
       try {
+        console.log('폼 제출 전 제품 정보:', this.product); // 폼 제출 전 데이터 확인
         await this.createProduct(this.product);
         console.log('제품 등록 완료');
-        this.resetForm();
+        this.navigateToProductList(); // 등록 성공 후 제품 목록 페이지로 이동
       } catch (error) {
         console.error('제품 등록 실패:', error);
       }
-    },
-    resetForm() {
-      this.product = {
-        productName: '',
-        nutrientId: null,
-        price: '',
-        stock: '',
-        target: '공통'
-      };
     },
     navigateToProductList() {
       this.$router.push('/productlist');
