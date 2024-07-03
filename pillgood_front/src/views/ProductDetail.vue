@@ -1,11 +1,11 @@
 <template>
-    <div class="product-detail">
+    <div class="main-container">
         <div class="breadcrumb">
             <p>카테고리 > [브랜드명] {{ product.productName }}</p>
         </div>
         <div class="product-main">
             <div class="product-image">
-                <img :src="product.productImage" alt="Product Image" />
+                <img src="../assets/product_01.png" alt="Product Image" />
             </div>
             <div class="product-info">
                 <h1 class="product-title">{{ product.productName }}</h1>
@@ -112,7 +112,11 @@ export default {
             }
         },
         buyNow() {
-            console.log(`Buying ${this.product.productName} now`);
+            const orderDetails = {
+                items: [{ productId: this.product.productId, productQuantity: this.quantity, price: this.product.price }],
+                totalAmount: this.product.price * this.quantity
+            };
+            this.$router.push({ name: 'Order', query: { orderDetails: JSON.stringify(orderDetails) } });
         }
     },
     created() {
@@ -195,6 +199,7 @@ export default {
 }
 
 .btn {
+    width: 120px;
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
@@ -239,6 +244,9 @@ export default {
     background-color: #ffffff;
     padding: 20px;
     border-radius: 8px;
+    width: calc(100% + 40px); /* Extend width to cover side padding */
+    margin-left: -20px; /* Offset margin to align with parent container */
+    margin-right: -20px; /* Offset margin to align with parent container */
 }
 
 .review, .inquiry {

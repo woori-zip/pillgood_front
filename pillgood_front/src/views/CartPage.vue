@@ -1,7 +1,7 @@
 <template>
     <div class="main-container">
       <div class="box-container box-shadow">
-        <div class="cart-title">장바구니</div>
+        <div class="cart-title text-melon">장바구니</div>
         <table class="cart-table">
           <thead>
             <tr>

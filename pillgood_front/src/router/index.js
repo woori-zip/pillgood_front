@@ -6,6 +6,7 @@ import ForgotPassword from '../views/ForgotPasswordView.vue'
 import ChangePassword from '../views/ChangePasswordView.vue'
 import Cart from '../views/CartPage.vue'
 import ProductDetail from '../views/ProductDetail.vue'
+import Order from '../views/OrderPage.vue';
 
 // product
 import ProductCreate from '../views/product/ProductCreate.vue'
@@ -23,6 +24,7 @@ const routes = [
   {path: '/mypage', component: MyPage},
   {path: '/cart' , component: Cart},
   {path: '/product/:id' , name: 'ProductDetail', component: ProductDetail, props: true},
+  { path: '/order', component: Order, name: 'Order' },
 
   // product
   {path: '/productcreate', component: ProductCreate},
