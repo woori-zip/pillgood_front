@@ -15,18 +15,7 @@
             </tr>
             <tr>
               <td><label for="age">나이:</label></td>
-<<<<<<< Updated upstream
-              <td>
-                <div v-if="isEditing">
-                  <v-date-picker v-model="birthdate" @change="updateAge" is-inline />
-                </div>
-                <div v-else>
-                  <input type="text" :value="user.age" readonly/>
-                </div>
-              </td>
-=======
-              <td><input type="text" :value="user.age" readonly/></td>
->>>>>>> Stashed changes
+              <td><input type="email" :value="user.age" readonly/></td>
             </tr>
             <tr>
               <td><label for="gender">성별:</label></td>
@@ -99,11 +88,6 @@ export default {
       isEditing: false,
       password: '',
       showPasswordModal: false,
-<<<<<<< Updated upstream
-      birthdate: null,
-=======
->>>>>>> Stashed changes
-      errors: {}
     };
   },
   created() {
@@ -177,32 +161,6 @@ export default {
       this.isEditing = false;
       this.fetchUserProfile();
     },
-<<<<<<< Updated upstream
-    updateAge(date) {
-      this.birthdate = date;
-      this.user.age = this.calculateAge(date);
-    },
-    calculateAge(birthdate) {
-      if (!birthdate) return '';
-      const today = new Date();
-      const birthDate = new Date(birthdate);
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const monthDifference = today.getMonth() - birthDate.getMonth();
-      if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
-      return age;
-    },
-=======
->>>>>>> Stashed changes
-    formatDate(date) {
-      if (!date) return '';
-      return new Date(date).toISOString().split('T')[0];
-    }
-  }
+  },
 };
-<<<<<<< Updated upstream
 </script>
-=======
-</script>
->>>>>>> Stashed changes

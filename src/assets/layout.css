@@ -104,18 +104,7 @@ html, body {
   gap: 20px;
 }
 
-<<<<<<< Updated upstream
 .icon-container link {
-  color: inherit;
-  text-decoration-line: none;
-  display: flex;
-  align-items: center;
-}
-
-.icon-container a {
-  color: #B4D9A9;
-=======
-.icon-container {
   color: inherit;
 }
 
@@ -133,14 +122,8 @@ html, body {
   cursor: pointer;
 }
 
-.icon-link:hover {
-  color: greenyellow;
-}
-
-/* 버튼의 기본 스타일 제거 */
-button.icon-link {
-  all: unset;
->>>>>>> Stashed changes
+.icon-container a {
+  color: #B4D9A9;
 }
 
 /* ------------------------------------------------ nav */

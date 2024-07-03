@@ -25,8 +25,7 @@ body {
   text-align: center;
 }
 
-<<<<<<< Updated upstream
-=======
+
 .box-container-wide {
   background: white;
   padding: 30px;
@@ -36,21 +35,19 @@ body {
   word-wrap: break-word; /* 자동 줄바꿈 추가 */
 }
 
->>>>>>> Stashed changes
 .box-shadow {
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-<<<<<<< Updated upstream
-=======
+
 .check-container-vertical {
   display: flex;
   flex-direction: column; /* 세로 배열로 변경 */
   align-items: flex-start;
 }
 
->>>>>>> Stashed changes
+
 @media (max-width: 1200px) {
   .main-container {
     width: 100%;
@@ -157,13 +154,10 @@ h1 {
   font-weight: bold;
 }
 
-<<<<<<< Updated upstream
-=======
 .question-text {
   white-space: normal; /* 줄바꿈 허용 */
 }
 
->>>>>>> Stashed changes
 /* -------------------------------------------------------------table */
 
 table {
@@ -206,6 +200,45 @@ td input {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* -------------------etc */
+
+.vc-container {
+  width: 100%;
+}
+
+.vc-popup {
+  border: 1px solid #B4D9A9;
+  border-radius: 5px;
+}
+
+.vc-pane {
+  background-color: #fff;
+}
+/* -------------------------------------------------------------icon */
+
+.icon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin: 5px;
+  font-size: 1.5em;
+  color: #000;
+  text-decoration: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.icon-link:hover {
+  color: #007BFF; /* 호버 시 색상 변경 */
+}
+
+/* 버튼의 기본 스타일 제거 */
+button.icon-link {
+  all: unset;
 }
 
 /* -------------------etc */
