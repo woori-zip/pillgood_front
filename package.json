@@ -13,5 +13,9 @@
   "description": "",
   "devDependencies": {
     "@vue/cli-service": "^5.0.8"
+  },
+  "dependencies": {
+    "jquery": "^3.7.1",
+    "vue3-quill": "^0.3.1"
   }
 }

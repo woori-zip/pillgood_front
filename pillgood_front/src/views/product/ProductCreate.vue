@@ -44,6 +44,7 @@
           </td>
         </tr>
       </table>
+      <RichTextEditor />
       <div class="box-container">
         <div class="btn-container">
           <button type="submit" class="btn btn-green">Create Product</button>
@@ -56,9 +57,13 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import RichTextEditor from '@/components/RichTextEditor.vue'
 
 export default {
-  name: 'ProductManage',
+  name: 'ProductCreate',
+  components: {
+    RichTextEditor
+  },
   data() {
     return {
       product: {
