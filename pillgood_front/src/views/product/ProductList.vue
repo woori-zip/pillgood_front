@@ -25,7 +25,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="product in filteredProducts" :key="product.productId">
+        <tr 
+          v-for="product in filteredProducts" 
+          :key="product.productId"
+          @mouseover="showImage(product.productId, $event)"
+          @mouseleave="hideImage"
+          @mousemove="moveImage($event)"
+        >
           <td>{{ product.productName }}</td>
           <td>{{ getNutrientName(product.nutrientId) }}</td>
           <td>{{ product.price }}</td>
@@ -43,6 +49,9 @@
         </tr>
       </tbody>
     </table>
+    <div v-if="hoveredImage" :style="{ top: tooltipPosition.y + 'px', left: tooltipPosition.x + 'px' }" class="image-tooltip">
+      <img :src="hoveredImage" alt="Product Image" />
+    </div>
   </div>
 </template>
 
@@ -55,6 +64,8 @@ export default {
     return {
       selectedFilter: '',
       searchQuery: '',
+      hoveredImage: null,
+      tooltipPosition: { x: 10, y: 0 }
     };
   },
   computed: {
@@ -85,14 +96,14 @@ export default {
   },
   async created() {
     await this.checkLoginStatus(); // 로그인 상태를 먼저 확인하여 Vuex 상태를 업데이트
-    console.log('isAdmin after checkLoginStatus:', this.isAdmin);
+    // console.log('isAdmin after checkLoginStatus:', this.isAdmin);
     
     await this.fetchProducts(); // 관리자 여부와 관계없이 제품 목록을 로드
     await this.fetchNutrients();
   },
   methods: {
     ...mapActions('member', ['checkLoginStatus']),
-    ...mapActions('product', ['fetchProducts', 'updateProductStatus']),
+    ...mapActions('product', ['fetchProducts', 'updateProductStatus', 'fetchProductDetails']),
     ...mapActions('nutrient', ['fetchNutrients']),
     getNutrientName(nutrientId) {
       const nutrient = this.nutrients.find(n => n.nutrientId === nutrientId);
@@ -123,6 +134,50 @@ export default {
     resetFilters() {
       this.selectedFilter = '';
       this.searchQuery = '';
+    },
+    // 제품 이미지 보이기
+    async showImage(productId, event) {
+      try {
+        // console.log(`Fetching details for product ID: ${productId}`);
+        const productDetails = await this.fetchProductDetails(productId);
+        console.log('Product Details:', productDetails);
+
+        if (!productDetails || !productDetails.productImage) {
+          throw new Error('No product description found');
+        }
+
+        const firstImage = this.extractFirstImage(productDetails.productImage);
+        console.log('First Image:', firstImage);
+
+        if (!firstImage) {
+          throw new Error('No image found in the product image field');
+        }
+
+        this.hoveredImage = firstImage;
+        this.tooltipPosition = { x: event.pageX + 15, y: event.pageY + 15 }; // 초기 위치 설정
+      } catch (error) {
+        console.error('이미지를 불러오는 데 실패했습니다:', error.message);
+      }
+    },
+    hideImage() {
+      this.hoveredImage = null;
+    },
+    moveImage(event) {
+      this.tooltipPosition = { x: event.pageX + 15 , y: event.pageY + 15 };
+    },
+    extractFirstImage(htmlString) { //매개변수 : html 형식의
+      console.log('Extracting image from HTML string:', htmlString);
+      // 1. 문자열로 된 html/xml을 DOM 구조로 파싱
+      const parser = new DOMParser(); // DOMParser 객체 생성
+      // html 문자열을 파싱하여 DOM document 객체로 변환
+      // 두 번째 매개변수로 text/html 사용 -> html로 파싱
+      const doc = parser.parseFromString(htmlString, 'text/html'); 
+
+      // 2. 이미지 태그 추출
+      const imgTag = doc.querySelector('img'); // img 태그가 없으면 null 반환
+      console.log('Parsed HTML:', doc);
+      console.log('Image Tag:', imgTag);
+      return imgTag ? imgTag.src : null;
     }
   }
 };
@@ -166,5 +221,19 @@ export default {
 .small-btn:hover {
   color:black;
   background: #C6EDC2;
+}
+
+.image-tooltip {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.image-tooltip img {
+  width: 150px; /* 너비를 150px로 고정 */
+  height: auto; /* 높이는 자동으로 설정하여 비율 유지 */
 }
 </style>

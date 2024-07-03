@@ -46,10 +46,10 @@ const actions = {
   async updateProductStatus({ commit }, { productId, active }) {
     try {
       const response = await axios.put(`/admin/products/${productId}/status`, { active });
-      console.log('서버 응답:', response); // 서버 응답 로그 추가
+      // console.log('서버 응답:', response); // 서버 응답 로그 추가
       if (response && response.status === 200) {
         commit('updateProductStatus', { productId, active });
-        return response; // 응답을 반환
+        return response; 
       } else {
         console.error('제품 상태 업데이트 실패:', response);
         throw new Error('제품 상태 업데이트 실패');
@@ -58,8 +58,28 @@ const actions = {
       console.error('제품 상태 업데이트 에러:', error);
       throw error;
     }
-  }
-};
+  },
+    // 비동기 방식 : 두 개의 매개변수를 받는데, 첫번째 매개변수는 사용하지 않으므로 '_'로 표시
+    async fetchProductDetails(_, productId) {
+      try {
+        // console.log(`Fetching product details for ID: ${productId}`);
+        const response = await axios.get(`/admin/products/detail/${productId}`); // 요청 URL
+        // console.log('Response:', response);
+  
+        if (response.status === 200) {
+          // console.log('Product details fetched successfully:', response.data);
+          return response.data; // 메서드를 호출한 곳으로 데이터 반환
+        } else {
+          console.error('Failed to fetch product details, status not 200:', response);
+          throw new Error('제품 세부 정보 조회 실패'); // 메서드를 호출한 곳으로 오류 전달
+        }
+      } catch (error) {
+        console.error('Error occurred while fetching product details:', error);
+        throw error;
+      }
+    }
+  };
+  
 
 const getters = {
   products: state => state.products
