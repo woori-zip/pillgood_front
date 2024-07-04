@@ -41,7 +41,7 @@
           <!-- 일반 사용자 카테고리 -->
           <nav class="nav-container" v-if="!isAdmin">
             <ul>
-              <li><a href="#"><i class="fa-solid fa-bars"></i>&nbsp;카테고리</a></li>
+              <li><router-link to="/productlist"><i class="fa-solid fa-bars"></i>&nbsp;카테고리</router-link></li>
               <li><a href="#">신제품</a></li>
               <li><a href="#">베스트</a></li>
               <li><a href="#">필굿리포트</a></li>
@@ -52,7 +52,7 @@
             <ul>
               <li><a href="#">회원관리</a></li>
               <!-- 상품목록 페이지로 수정 예정. 목록 페이지 안 만들어서 등록 페이지 붙임. -->
-              <li><a href="/productlist">상품관리</a></li>
+              <li><a href="/admin/productlist">상품관리</a></li>
               <li><a href="#">베스트</a></li>
               <li><a href="#">필굿리포트</a></li>
             </ul>

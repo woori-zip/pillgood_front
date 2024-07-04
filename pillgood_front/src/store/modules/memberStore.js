@@ -4,31 +4,30 @@ const state = {
   isLoggedIn: false,
   memberId: null, // 사용자 ID를 저장할 상태
   member: null, // 사용자 정보를 저장할 상태
-  isAdmin: false // 관리자 여부를 저장할 상태
+  isAdmin: false, // 관리자 여부를 저장할 상태
+  token: null
 };
 
 const mutations = {
   setLoginState(state, payload) {
-    if (payload.memberId !== undefined) { // memberId가 undefined가 아닌 경우에만 업데이트
-      state.isLoggedIn = payload.isLoggedIn;
-      state.memberId = payload.memberId;
-      state.member = payload.member;
-      state.isAdmin = payload.isAdmin || false;
-      console.log('상태 업데이트 - isLoggedIn:', state.isLoggedIn, 'memberId:', state.memberId, 'isAdmin:', state.isAdmin);
-    }
+    state.isLoggedIn = payload.isLoggedIn;
+    state.memberId = payload.memberId;
+    state.member = payload.member;
+    state.isAdmin = payload.isAdmin || false;
+    state.token = payload.token;
   }
 };
 
 const actions = {
-  async login({ dispatch }, { email, password }) {
+  async login({ commit }, { email, password }) {
     try {
       const response = await axios.post('/members/login', { email, password });
       if (response.status === 200) {
-        const memberId = response.data.memberId; // 서버 응답에서 memberId 추출
-        localStorage.setItem('loggedIn', true); // 문자열로 저장
-        await dispatch('fetchMemberInfo', memberId); // memberId 전달
-      } else {
-        console.error('axios 로그인 실패: ', response.data);
+        const memberId = response.data.memberId;
+        const token = response.data.token;
+        console.log("토근 확인:", token)
+        localStorage.setItem('loggedIn', true);
+        commit('setLoginState', { isLoggedIn: true, memberId, token });
       }
     } catch (error) {
       console.error('axios 로그인 에러: ', error);

@@ -11,7 +11,7 @@
             <h1>{{ slide.headline }}</h1>
             <p>{{ slide.content }}</p>
             <p v-if="index === 0" class="button-container">
-              <a class="btn btn-lg btn-primary" :href="slide.link">{{ slide.buttonText }}</a>
+              <router-link class="btn btn-lg btn-primary" :to="slide.route">{{ slide.buttonText }}</router-link>
             </p>
           </div>
         </div>
@@ -148,8 +148,8 @@ export default {
           image: require('@/assets/banner1.png'),
           headline: 'Example headline.',
           content: 'Some representative placeholder content for the first slide of the carousel.',
-          buttonText: 'Sign up today',
-          link: '#',
+          buttonText: '설문 조사 바로 가기',
+          route: '/survey', // 라우터 경로 설정
           captionClass: 'text-start'
         },
         {

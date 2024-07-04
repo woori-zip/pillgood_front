@@ -21,17 +21,24 @@ const mutations = {
 
 const actions = {
   async createProduct({ commit }, product) {
-    const response = await axios.post('/admin/products/create', product);
-    // console.log("제품 등록 서버 응답:", response);
-    if (response.status === 201) {
-      commit('addProduct', response.data);
-    } else {
-      throw new Error('제품 등록 실패');
+    try {
+      const response = await axios.post('/admin/products/create', product); // 서버 엔드포인트 URL을 사용하여 제품 생성
+      if (response.status === 201) {
+        commit('addProduct', response.data);
+        console.log('제품 등록 성공:', response.data);
+      } else {
+        console.error('제품 등록 실패:', response.data);
+        throw new Error('제품 등록 실패');
+      }
+    } catch (error) {
+      console.error('제품 등록 에러:', error);
+      throw error;
     }
   },
   async fetchProducts({ commit }) {
     try {
-      const response = await axios.get('/admin/products/list');
+      const response = await axios.get('/products/list');
+      console.log('제품리스트조회response',response)
       if (response.status === 200) {
         const products = Array.isArray(response.data) && Array.isArray(response.data[0]) ? response.data[0] : response.data;
         commit('setProducts', products);
@@ -63,7 +70,7 @@ const actions = {
     async fetchProductDetails(_, productId) {
       try {
         // console.log(`Fetching product details for ID: ${productId}`);
-        const response = await axios.get(`/admin/products/detail/${productId}`); // 요청 URL
+        const response = await axios.get(`/products/detail/${productId}`); // 요청 URL
         // console.log('Response:', response);
   
         if (response.status === 200) {
